@@ -44,6 +44,9 @@ export async function getRankings() {
       },
     };
   });
-
-  return stats.sort((a, b) => b.stats.winRate - a.stats.winRate);
+  return stats.sort((a, b) => {
+    const winRateDiff = b.stats.winRate - a.stats.winRate;
+    if (winRateDiff !== 0) return winRateDiff;
+    return b.stats.wins - a.stats.wins;
+  });
 }
