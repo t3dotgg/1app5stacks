@@ -1,4 +1,13 @@
+import "server-only";
 import { unstable_cacheLife } from "next/cache";
+
+export type Pokemon = {
+  name: string;
+  dexNumber: number;
+  sprite: string;
+};
+
+export type PokemonPair = [Pokemon, Pokemon];
 
 export async function getAllPokemon() {
   "use cache";

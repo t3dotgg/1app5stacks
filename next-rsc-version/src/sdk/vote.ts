@@ -1,33 +1,22 @@
 import { kv } from "@vercel/kv";
 import { getAllPokemon } from "./pokeapi";
 
-interface Battle {
-  winner: number;
-  loser: number;
-  timestamp: number;
-}
+export const recordBattle = async (winner: number, loser: number) =>
+  Promise.all([
+    // Record battle
+    kv.lpush(
+      "battles:all",
+      JSON.stringify({
+        winner,
+        loser,
+        timestamp: Date.now(),
+      })
+    ),
 
-// Key structure:
-// battles:all - List of all battles (List)
-// pokemon:{id}:wins - Number of wins for a pokemon (Number)
-// pokemon:{id}:losses - Number of losses for a pokemon (Number)
-
-export async function recordBattle(winner: number, loser: number) {
-  const battle: Battle = {
-    winner,
-    loser,
-    timestamp: Date.now(),
-  };
-
-  // Record the battle in a list
-  await kv.lpush("battles:all", JSON.stringify(battle));
-
-  // Increment win/loss counters
-  await Promise.all([
+    // Increment win/loss counters
     kv.incr(`pokemon:${winner}:wins`),
     kv.incr(`pokemon:${loser}:losses`),
   ]);
-}
 
 export async function getRankings() {
   const pokemonList = await getAllPokemon();

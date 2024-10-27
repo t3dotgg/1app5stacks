@@ -1,16 +1,8 @@
-import { getTwoRandomPokemon } from "@/sdk/pokeapi";
+import { getTwoRandomPokemon, PokemonPair } from "@/sdk/pokeapi";
 import { recordBattle } from "@/sdk/vote";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
-
-type Pokemon = {
-  name: string;
-  dexNumber: number;
-  sprite: string;
-};
-
-type PokemonPair = [Pokemon, Pokemon];
 
 async function VoteContent() {
   const twoPokemonJSON = (await cookies()).get("nextTwo")?.value;
