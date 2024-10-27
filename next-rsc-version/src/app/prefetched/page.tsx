@@ -3,6 +3,7 @@ import { recordBattle } from "@/sdk/vote";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
+import PokemonSprite from "@/utils/pokemon-sprite";
 
 async function VoteContent() {
   const twoPokemonJSON = (await cookies()).get("nextTwo")?.value;
@@ -17,12 +18,10 @@ async function VoteContent() {
       {/* Render next two images in hidden divs so they load faster */}
       <div className="hidden">
         {futureTwo.map((pokemon) => (
-          <img
+          <PokemonSprite
             key={pokemon.dexNumber}
-            src={`/sprite/${pokemon.dexNumber}.png`}
-            alt={pokemon.name}
-            className="w-64 h-64 image-rendering-pixelated"
-            style={{ imageRendering: "pixelated" }}
+            pokemon={pokemon}
+            className="w-64 h-64"
           />
         ))}
       </div>
@@ -31,12 +30,7 @@ async function VoteContent() {
           key={pokemon.dexNumber}
           className="flex flex-col items-center gap-4"
         >
-          <img
-            src={`/sprite/${pokemon.dexNumber}.png`}
-            alt={pokemon.name}
-            className="w-64 h-64 image-rendering-pixelated"
-            style={{ imageRendering: "pixelated" }}
-          />
+          <PokemonSprite pokemon={pokemon} className="w-64 h-64" />
           <div className="text-center">
             <span className="text-gray-500 text-lg">#{pokemon.dexNumber}</span>
             <h2 className="text-2xl font-bold capitalize">{pokemon.name}</h2>

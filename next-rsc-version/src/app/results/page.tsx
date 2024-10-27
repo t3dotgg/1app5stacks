@@ -1,4 +1,5 @@
 import { getRankings } from "@/sdk/vote";
+import PokemonSprite from "@/utils/pokemon-sprite";
 import { Suspense } from "react";
 
 async function Results() {
@@ -16,13 +17,7 @@ async function Results() {
             #{index + 1}
           </div>
 
-          <img
-            src={`/sprite/${pokemon.dexNumber}.png`}
-            alt={pokemon.name}
-            className="w-20 h-20 image-rendering-pixelated"
-            style={{ imageRendering: "pixelated" }}
-            loading="lazy"
-          />
+          <PokemonSprite pokemon={pokemon} className="w-20 h-20" />
 
           <div className="flex-grow">
             <div className="text-gray-400 text-sm">#{pokemon.dexNumber}</div>

@@ -15,7 +15,7 @@ export default async function Home() {
             <img
               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.dexNumber}.png`}
               alt={pokemon.name}
-              className="w-16 h-16 image-rendering-pixelated"
+              className="w-16 h-16"
               style={{ imageRendering: "pixelated" }}
             />
             <div>
