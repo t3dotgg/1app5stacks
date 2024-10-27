@@ -1,4 +1,5 @@
 import { getTwoRandomPokemon } from "@/sdk/pokeapi";
+import { recordBattle } from "@/sdk/vote";
 import { revalidatePath } from "next/cache";
 import { Suspense } from "react";
 
@@ -7,7 +8,7 @@ async function VoteContent() {
 
   return (
     <div className="flex justify-center gap-16 items-center min-h-[80vh]">
-      {twoPokemon.map((pokemon) => (
+      {twoPokemon.map((pokemon, index) => (
         <div
           key={pokemon.dexNumber}
           className="flex flex-col items-center gap-4"
@@ -26,6 +27,10 @@ async function VoteContent() {
                 formAction={async () => {
                   "use server";
                   console.log("voted for", pokemon.name);
+
+                  const loser = twoPokemon[index === 0 ? 1 : 0];
+
+                  await recordBattle(pokemon.dexNumber, loser.dexNumber);
                   revalidatePath("/");
                 }}
                 className="px-8 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors"
