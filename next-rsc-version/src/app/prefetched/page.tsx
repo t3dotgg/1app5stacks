@@ -7,18 +7,18 @@ import PokemonSprite from "@/utils/pokemon-sprite";
 import VoteFallback from "@/utils/vote-fallback";
 
 async function VoteContent() {
-  const twoPokemonJSON = (await cookies()).get("nextTwo")?.value;
+  const twoPokemonJSON = (await cookies()).get("currentPair")?.value;
   const twoPokemon = twoPokemonJSON
     ? (JSON.parse(twoPokemonJSON) as PokemonPair)
     : await getTwoRandomPokemon();
 
-  const futureTwo = await getTwoRandomPokemon();
+  const nextPair = await getTwoRandomPokemon();
 
   return (
     <div className="flex justify-center gap-16 items-center min-h-[80vh]">
       {/* Render next two images in hidden divs so they load faster */}
       <div className="hidden">
-        {futureTwo.map((pokemon) => (
+        {nextPair.map((pokemon) => (
           <PokemonSprite
             key={pokemon.dexNumber}
             pokemon={pokemon}
@@ -46,7 +46,7 @@ async function VoteContent() {
                   await recordBattle(pokemon.dexNumber, loser.dexNumber);
 
                   const jar = await cookies();
-                  jar.set("nextTwo", JSON.stringify(futureTwo));
+                  jar.set("currentPair", JSON.stringify(nextPair));
                   revalidatePath("/");
                 }}
                 className="px-8 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors"
