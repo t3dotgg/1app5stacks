@@ -2,9 +2,6 @@
 
 import { NextRequest } from "next/server";
 
-// Cache the sprites indefinitely
-export const maxDuration = 60 * 60 * 24;
-
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ spritename: string }> }
@@ -17,6 +14,10 @@ export async function GET(
   }
 
   const dexId = parseInt(spritename.split(".")[0]);
+
+  if (isNaN(dexId) || dexId < 1 || dexId > 1025) {
+    return new Response("Not found", { status: 404 });
+  }
 
   const spriteFromGithub = await fetch(
     `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dexId}.png`
