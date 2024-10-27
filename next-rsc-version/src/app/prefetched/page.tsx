@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 import PokemonSprite from "@/utils/pokemon-sprite";
+import VoteFallback from "@/utils/vote-fallback";
 
 async function VoteContent() {
   const twoPokemonJSON = (await cookies()).get("nextTwo")?.value;
@@ -63,22 +64,7 @@ async function VoteContent() {
 export default function Home() {
   return (
     <div className="container mx-auto px-4">
-      <Suspense
-        fallback={
-          <div className="flex justify-center gap-16 items-center min-h-[80vh]">
-            {[1, 2].map((i) => (
-              <div key={i} className="flex flex-col items-center gap-4">
-                <div className="w-64 h-64 bg-gray-200 rounded-lg animate-pulse" />
-                <div className="text-center space-y-2">
-                  <div className="h-6 w-16 bg-gray-200 rounded animate-pulse mx-auto" />
-                  <div className="h-8 w-32 bg-gray-200 rounded animate-pulse" />
-                  <div className="h-12 w-24 bg-gray-200 rounded-lg animate-pulse mt-4" />
-                </div>
-              </div>
-            ))}
-          </div>
-        }
-      >
+      <Suspense fallback={<VoteFallback />}>
         <VoteContent />
       </Suspense>
     </div>
