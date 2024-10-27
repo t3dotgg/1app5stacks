@@ -1,8 +1,9 @@
 import { kv } from "@vercel/kv";
 import { getAllPokemon } from "./pokeapi";
+import { waitUntil } from "@vercel/functions";
 
 export const recordBattle = async (winner: number, loser: number) => {
-  Promise.all([
+  const recordPromises = Promise.all([
     // Record battle
     kv.lpush(
       "battles:all",
@@ -17,6 +18,8 @@ export const recordBattle = async (winner: number, loser: number) => {
     kv.incr(`pokemon:${winner}:wins`),
     kv.incr(`pokemon:${loser}:losses`),
   ]);
+
+  void waitUntil(recordPromises);
 };
 
 export async function getRankings() {

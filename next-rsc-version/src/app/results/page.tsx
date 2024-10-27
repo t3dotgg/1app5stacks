@@ -17,7 +17,7 @@ async function Results() {
             #{index + 1}
           </div>
 
-          <PokemonSprite pokemon={pokemon} className="w-20 h-20" />
+          <PokemonSprite pokemon={pokemon} className="w-20 h-20" lazy />
 
           <div className="flex-grow">
             <div className="text-gray-400 text-sm">#{pokemon.dexNumber}</div>

@@ -6,8 +6,9 @@ const nextConfig: NextConfig = {
     dynamicIO: true,
     cacheLife: {
       default: {
-        expire: 60 * 1000,
-        revalidate: 60 * 1000,
+        stale: 60 * 60 * 24 * 14, // 14 days
+        revalidate: 60 * 60 * 24, // 1 day
+        expire: 60 * 60 * 24 * 14, // 14 days
       },
       forever: {
         expire: 999999999,
