@@ -17,10 +17,11 @@ async function Results() {
           </div>
 
           <img
-            src={pokemon.sprite}
+            src={`/sprite/${pokemon.dexNumber}.png`}
             alt={pokemon.name}
             className="w-20 h-20 image-rendering-pixelated"
             style={{ imageRendering: "pixelated" }}
+            loading="lazy"
           />
 
           <div className="flex-grow">

@@ -19,7 +19,7 @@ async function VoteContent() {
         {futureTwo.map((pokemon) => (
           <img
             key={pokemon.dexNumber}
-            src={pokemon.sprite}
+            src={`/sprite/${pokemon.dexNumber}.png`}
             alt={pokemon.name}
             className="w-64 h-64 image-rendering-pixelated"
             style={{ imageRendering: "pixelated" }}
@@ -32,7 +32,7 @@ async function VoteContent() {
           className="flex flex-col items-center gap-4"
         >
           <img
-            src={pokemon.sprite}
+            src={`/sprite/${pokemon.dexNumber}.png`}
             alt={pokemon.name}
             className="w-64 h-64 image-rendering-pixelated"
             style={{ imageRendering: "pixelated" }}
