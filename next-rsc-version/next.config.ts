@@ -1,14 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   experimental: {
     ppr: true,
     dynamicIO: true,
     cacheLife: {
       default: {
-        expire: 60, // 1 minute
-        revalidate: 60, // 1 minute
+        expire: 60 * 1000,
+        revalidate: 60 * 1000,
       },
       forever: {
         expire: 999999999,
