@@ -2,7 +2,7 @@ import { getTwoRandomPokemon } from "@/sdk/pokeapi";
 import { revalidatePath } from "next/cache";
 import { Suspense } from "react";
 
-export async function VoteContent() {
+async function VoteContent() {
   const twoPokemon = await getTwoRandomPokemon();
 
   return (
