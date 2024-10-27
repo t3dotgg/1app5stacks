@@ -6,7 +6,7 @@ export async function getAllPokemon() {
 
   const query = `
     query GetAllPokemon {
-      pokemon_v2_pokemon {
+      pokemon_v2_pokemon(where: {id: {_lte: 1025}}) {
         id
         pokemon_v2_pokemonspecy {
           name

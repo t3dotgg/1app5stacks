@@ -6,7 +6,10 @@ const nextConfig: NextConfig = {
     ppr: true,
     dynamicIO: true,
     cacheLife: {
-      default: {},
+      default: {
+        expire: 60, // 1 minute
+        revalidate: 60, // 1 minute
+      },
       forever: {
         expire: 999999999,
         revalidate: 999999999,

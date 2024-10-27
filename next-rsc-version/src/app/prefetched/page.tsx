@@ -1,4 +1,5 @@
 import { getTwoRandomPokemon } from "@/sdk/pokeapi";
+import { recordBattle } from "@/sdk/vote";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
@@ -33,7 +34,7 @@ async function VoteContent() {
           />
         ))}
       </div>
-      {twoPokemon.map((pokemon) => (
+      {twoPokemon.map((pokemon, index) => (
         <div
           key={pokemon.dexNumber}
           className="flex flex-col items-center gap-4"
@@ -51,7 +52,11 @@ async function VoteContent() {
               <button
                 formAction={async () => {
                   "use server";
-                  console.log("voted for", pokemon.name);
+                  console.log("voted for", pokemon.name, pokemon.dexNumber);
+
+                  const loser = twoPokemon[index === 0 ? 1 : 0];
+
+                  await recordBattle(pokemon.dexNumber, loser.dexNumber);
 
                   const jar = await cookies();
                   jar.set("nextTwo", JSON.stringify(futureTwo));
