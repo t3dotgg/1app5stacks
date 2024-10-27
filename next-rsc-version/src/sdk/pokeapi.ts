@@ -9,10 +9,17 @@ export type Pokemon = {
 
 export type PokemonPair = [Pokemon, Pokemon];
 
+/**
+ * Fetches all Pokemon from Gen 1-9 (up to #1025) from the PokeAPI GraphQL endpoint.
+ * Each Pokemon includes their name, Pokedex number, and sprite URL.
+ * Results are cached indefinitely using Next.js cache.
+ */
 export async function getAllPokemon() {
   "use cache";
   unstable_cacheLife("forever");
 
+  // Use the graphql endpoint because the normal one won't let you get names
+  // in a single query
   const query = `
     query GetAllPokemon {
       pokemon_v2_pokemon(where: {id: {_lte: 1025}}) {
