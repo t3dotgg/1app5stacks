@@ -2,7 +2,7 @@ import { getRankings } from "@/sdk/vote";
 import { Suspense } from "react";
 
 async function Results() {
-  // "use cache";
+  "use cache";
   const rankings = await getRankings();
 
   return (

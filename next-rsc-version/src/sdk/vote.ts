@@ -30,69 +30,31 @@ export async function recordBattle(winner: number, loser: number) {
 }
 
 export async function getRankings() {
-  // Map to values from pokemon api and sort
   const pokemonList = await getAllPokemon();
 
-  // Get all pokemon win keys
-  const winKeys = await kv.keys("pokemon:*:wins");
+  // Construct win/loss keys directly from pokemon list
+  const winKeys = pokemonList.map((p) => `pokemon:${p.dexNumber}:wins`);
+  const lossKeys = pokemonList.map((p) => `pokemon:${p.dexNumber}:losses`);
 
-  // Create loss keys for the same pokemon IDs
-  const lossKeys = await kv.keys("pokemon:*:losses");
-
-  // Get the actual wins and losses values
-  const [allWins, allLosses] = await Promise.all([
+  const [wins, losses] = await Promise.all([
     kv.mget<number[]>(...winKeys),
     kv.mget<number[]>(...lossKeys),
   ]);
 
-  // Create a map of pokemon ID to their wins/losses
-  const statsMap = new Map<number, { wins: number; losses: number }>();
-
-  winKeys.forEach((key, i) => {
-    // Extract ID from key format "pokemon:{id}:wins"
-    const id = parseInt(key.split(":")[1]);
-    const wins = allWins[i] ?? 0;
-
-    if (!statsMap.has(id)) {
-      statsMap.set(id, { wins: 0, losses: 0 });
-    }
-    statsMap.get(id)!.wins = wins;
-  });
-
-  lossKeys.forEach((key, i) => {
-    // Extract ID from key format "pokemon:{id}:losses"
-    const id = parseInt(key.split(":")[1]);
-    const losses = allLosses[i] ?? 0;
-
-    if (!statsMap.has(id)) {
-      statsMap.set(id, { wins: 0, losses: 0 });
-    }
-    statsMap.get(id)!.losses = losses;
-  });
-
-  // Convert map to array and calculate win rates
-  const pokemonStats = Array.from(statsMap.entries()).map(([id, stats]) => {
-    const totalBattles = stats.wins + stats.losses;
-    const winRate = totalBattles > 0 ? stats.wins / totalBattles : 0;
+  const stats = pokemonList.map((pokemon, index) => {
+    const totalWins = wins[index] ?? 0;
+    const totalLosses = losses[index] ?? 0;
+    const totalBattles = totalWins + totalLosses;
 
     return {
-      id,
+      ...pokemon,
       stats: {
-        wins: stats.wins,
-        losses: stats.losses,
-        winRate,
+        wins: totalWins,
+        losses: totalLosses,
+        winRate: totalBattles > 0 ? totalWins / totalBattles : 0,
       },
     };
   });
 
-  return pokemonStats
-    .sort((a, b) => b.stats.winRate - a.stats.winRate)
-    .map((pv) => {
-      const pokemon = pokemonList.find((p) => p.dexNumber === pv.id);
-      return {
-        ...pokemon,
-        stats: pv.stats,
-      };
-    })
-    .filter((p) => p.name != null); // Filter out any pokemon that weren't found
+  return stats.sort((a, b) => b.stats.winRate - a.stats.winRate);
 }
