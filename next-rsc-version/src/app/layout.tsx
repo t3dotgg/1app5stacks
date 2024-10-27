@@ -33,7 +33,7 @@ export default function RootLayout({
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between">
               <Link href="/">
-                <h1 className="text-3xl font-bold">Roundest</h1>
+                <h1 className="text-3xl font-bold">Roundest (RSC Edition)</h1>
               </Link>
               <nav className="flex gap-4">
                 <Link

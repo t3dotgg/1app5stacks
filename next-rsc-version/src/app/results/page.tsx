@@ -11,7 +11,7 @@ async function Results() {
       {rankings.map((pokemon, index) => (
         <div
           key={pokemon.dexNumber}
-          className="flex items-center gap-6 p-6 bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow"
+          className="flex items-center gap-6 p-6 bg-gray-800/40 rounded-lg shadow hover:shadow-md transition-shadow"
         >
           <div className="text-2xl font-bold text-gray-400 w-8">
             #{index + 1}
@@ -41,9 +41,30 @@ async function Results() {
 export default function ResultsPage() {
   return (
     <div className="container mx-auto px-4 py-8 text-white">
-      <h1 className="text-3xl font-bold mb-8">Pokemon Rankings</h1>
       <div className="grid gap-4">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <div className="grid gap-4">
+              {[...Array(10)].map((_, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-6 p-6 bg-gray-800/40 rounded-lg shadow animate-pulse"
+                >
+                  <div className="w-8 h-8 bg-gray-700/40 rounded" />
+                  <div className="w-20 h-20 bg-gray-700/40 rounded" />
+                  <div className="flex-grow">
+                    <div className="w-16 h-4 bg-gray-700/40 rounded mb-2" />
+                    <div className="w-32 h-6 bg-gray-700/40 rounded" />
+                  </div>
+                  <div className="text-right">
+                    <div className="w-16 h-8 bg-gray-700/40 rounded mb-2" />
+                    <div className="w-24 h-4 bg-gray-700/40 rounded" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          }
+        >
           <Results />
         </Suspense>
       </div>
