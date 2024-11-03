@@ -6,6 +6,11 @@ import { Suspense } from "react";
 import PokemonSprite from "@/utils/pokemon-sprite";
 import VoteFallback from "@/utils/vote-fallback";
 
+export const metadata = {
+  title: "Over-Optimized Version | Roundest (RSC Version)",
+  description: "Roundest, but implemented with React Server Commponents",
+};
+
 async function VoteContent() {
   const twoPokemonJSON = (await cookies()).get("currentPair")?.value;
   const twoPokemon = twoPokemonJSON

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Link from "next/link";
 import "./globals.css";
@@ -14,8 +13,8 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
-  title: "Roundest - RSC edition",
+export const metadata = {
+  title: "Roundest (RSC Version)",
   description: "A web app for voting on which Pokemon is the most round",
 };
 

@@ -2,6 +2,11 @@ import { getRankings } from "@/sdk/vote";
 import PokemonSprite from "@/utils/pokemon-sprite";
 import { Suspense } from "react";
 
+export const metadata = {
+  title: "Results | Roundest (RSC Version)",
+  description: "See the results",
+};
+
 async function Results() {
   "use cache";
   const rankings = await getRankings();
