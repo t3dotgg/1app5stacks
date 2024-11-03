@@ -38,6 +38,7 @@ export default function RootLayout({
                 <Link
                   href="/prefetched"
                   className="text-blue-500 hover:text-blue-600"
+                  prefetch={false}
                 >
                   Prefetched
                 </Link>
