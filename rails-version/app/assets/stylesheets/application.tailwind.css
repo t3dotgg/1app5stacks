@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-neutral-950 text-neutral-50;
+}
+
+.sprite {
+  image-rendering: pixelated;
+}

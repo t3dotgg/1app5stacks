@@ -1,0 +1,16 @@
+<h1>Pokemon Results</h1>
+
+<div id="results-chart">
+  <% @pokemons.each do |pokemon| %>
+    <div class="pokemon-result">
+      <span class="pokemon-name"><%= pokemon.name %></span>
+      <div class="bar-container">
+        <div class="bar" style="width: <%= pokemon.win_percentage %>%;">
+          <%= number_to_percentage(pokemon.win_percentage, precision: 1) %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to "Back to Pokemon List", pokemons_path %>
