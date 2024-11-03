@@ -11,7 +11,7 @@
   "dependencies": {
     "@vercel/functions": "^1.4.2",
     "@vercel/kv": "^3.0.0",
-    "next": "15.0.2-canary.8",
+    "next": "15.0.3-canary.4",
     "react": "19.0.0-rc-1631855f-20241023",
     "react-dom": "19.0.0-rc-1631855f-20241023"
   },
