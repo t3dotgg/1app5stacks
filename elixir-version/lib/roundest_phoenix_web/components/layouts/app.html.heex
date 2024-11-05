@@ -1,8 +1,13 @@
 <div class="bg-gray-950 text-white flex flex-col justify-between font-geist min-h-screen border-t-2 border-blue-300">
   <nav class="flex flex-row justify-between items-center py-4 px-8">
-    <a class="font-bold text-3xl" href={~p"/"}>
-      round<span class="text-blue-300">est</span>
-    </a>
+    <div class="flex items-baseline">
+      <a class="font-bold text-3xl" href={~p"/"}>
+        round<span class="text-blue-300">est</span>
+      </a>
+      <p class="text-gray-400 font-extralight pl-2 text-2xl">
+        (Elixir/Phoenix)
+      </p>
+    </div>
     <div class="flex flex-row items-center gap-8">
       <a href={~p"/results"} class="hover:underline text-lg">results</a>
     </div>
@@ -13,5 +18,7 @@
     <%= @inner_content %>
   </main>
 
-  <footer class="font-light text-center py-3 text-gray-500">t3 content - by Ben Davis</footer>
+  <footer class="font-light text-center py-3 text-gray-500">
+    <a href="https://github.com/t3dotgg/1app5stacks" target="_blank">GitHub</a>
+  </footer>
 </div>
