@@ -26,37 +26,43 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-950 text-white flex flex-col justify-between min-h-screen border-t-2 border-blue-300`}
       >
-        <header className="py-4">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between">
-              <Link href="/">
-                <h1 className="text-3xl font-bold">Roundest (RSC Edition)</h1>
+        <header className="py-4 px-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-baseline">
+              <Link href="/" className="font-bold text-3xl">
+                round<span className="text-blue-300">est</span>
+                <span className="text-gray-400 font-extralight pl-2 text-2xl">
+                  (React Server Components)
+                </span>
               </Link>
-              <nav className="flex gap-4">
-                <Link
-                  href="/prefetched"
-                  className="text-blue-500 hover:text-blue-600"
-                  prefetch={false}
-                >
-                  Prefetched
-                </Link>
-                <Link
-                  href="/results"
-                  className="text-blue-500 hover:text-blue-600"
-                >
-                  Results
-                </Link>
-              </nav>
             </div>
+            <nav className="flex flex-row items-center gap-8">
+              <Link
+                href="/prefetched"
+                className="hover:underline text-lg"
+                prefetch={false}
+              >
+                Turbo Version
+              </Link>
+              <Link href="/results" className="hover:underline text-lg">
+                Results
+              </Link>
+            </nav>
           </div>
         </header>
 
         <main className="flex-1">{children}</main>
 
-        <footer className="py-4">
-          <div className="container mx-auto px-4"></div>
+        <footer className="font-light text-center py-3 text-gray-500">
+          <a
+            href="https://github.com/t3dotgg/1app5stacks"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
         </footer>
       </body>
     </html>
