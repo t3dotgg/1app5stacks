@@ -45,14 +45,17 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
             alt={"#{@firstEntry.name}"}
             class="w-48 h-48"
           />
-          <div class="text-center font-light text-neutral-500">#<%= @firstEntry.dex_id %></div>
+          <div class="text-center">
+            <span class="text-gray-500 text-lg">#<%= @firstEntry.dex_id %></span>
+            <h2 class="text-2xl font-bold capitalize"><%= @firstEntry.name %></h2>
+          </div>
           <button
             class="hover:bg-gray-700 bg-blue-600 text-white px-4 py-2 rounded-md"
             phx-click="vote"
             phx-value-winner_id={@firstEntry.id}
             phx-value-loser_id={@secondEntry.id}
           >
-            <%= @firstEntry.name %>
+            Vote
           </button>
         </div>
 
@@ -62,14 +65,17 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
             alt={"#{@secondEntry.name}"}
             class="w-48 h-48"
           />
-          <div class="text-center font-light text-neutral-500">#<%= @secondEntry.dex_id %></div>
+          <div class="text-center">
+            <span class="text-gray-500 text-lg">#<%= @secondEntry.dex_id %></span>
+            <h2 class="text-2xl font-bold capitalize"><%= @secondEntry.name %></h2>
+          </div>
           <button
             class="hover:bg-gray-700 bg-blue-600 text-white px-4 py-2 rounded-md"
             phx-click="vote"
             phx-value-winner_id={@secondEntry.id}
             phx-value-loser_id={@firstEntry.id}
           >
-            <%= @secondEntry.name %>
+            Vote
           </button>
         </div>
       </div>
