@@ -1,0 +1,17 @@
+<div class="bg-gray-950 text-white flex flex-col justify-between font-geist min-h-screen border-t-2 border-blue-300">
+  <nav class="flex flex-row justify-between items-center py-4 px-8">
+    <a class="font-bold text-3xl" href={~p"/"}>
+      round<span class="text-blue-300">est</span>
+    </a>
+    <div class="flex flex-row items-center gap-8">
+      <a href={~p"/results"} class="hover:underline text-lg">results</a>
+    </div>
+  </nav>
+
+  <main>
+    <.flash_group flash={@flash} />
+    <%= @inner_content %>
+  </main>
+
+  <footer class="font-light text-center py-3 text-gray-500">t3 content - by Ben Davis</footer>
+</div>
