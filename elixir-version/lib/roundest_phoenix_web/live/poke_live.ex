@@ -10,14 +10,22 @@ defmodule RoundestPhoenixWeb.PokeLive do
     ~H"""
     <div class="w-full grow flex flex-col items-center justify-center gap-8">
       <div class="md:grid grid-cols-2 gap-8">
-        <div class="flex flex-col gap-4">
-          <div class="w-48 h-48 bg-gray-200/20 animate-pulse"></div>
-          <div class="text-center font-light text-neutral-500">Loading...</div>
+        <div class="flex flex-col items-center gap-4">
+          <div class="w-48 h-48 bg-gray-800/10 rounded-lg animate-pulse" />
+          <div class="text-center space-y-2 flex flex-col items-center justify-center">
+            <div class="h-6 w-16 bg-gray-800/10 rounded animate-pulse" />
+            <div class="h-8 w-32 bg-gray-800/10 rounded animate-pulse" />
+            <div class="h-12 w-24 bg-gray-800/10 rounded animate-pulse" />
+          </div>
         </div>
 
-        <div class="flex flex-col gap-4">
-          <div class="w-48 h-48 bg-gray-200/20 animate-pulse"></div>
-          <div class="text-center font-light text-neutral-500">Loading...</div>
+        <div class="flex flex-col items-center gap-4">
+          <div class="w-48 h-48 bg-gray-800/10 rounded-lg animate-pulse" />
+          <div class="text-center space-y-2 flex flex-col items-center justify-center">
+            <div class="h-6 w-16 bg-gray-800/10 rounded animate-pulse" />
+            <div class="h-8 w-32 bg-gray-800/10 rounded animate-pulse" />
+            <div class="h-12 w-24 bg-gray-800/10 rounded animate-pulse" />
+          </div>
         </div>
       </div>
     </div>
