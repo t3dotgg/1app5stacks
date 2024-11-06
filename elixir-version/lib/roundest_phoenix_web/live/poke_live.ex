@@ -11,12 +11,12 @@ defmodule RoundestPhoenixWeb.PokeLive do
     <div class="w-full grow flex flex-col items-center justify-center gap-8">
       <div class="md:grid grid-cols-2 gap-8">
         <div class="flex flex-col gap-4">
-          <div class="w-48 h-48 bg-gray-200 animate-pulse"></div>
+          <div class="w-48 h-48 bg-gray-200/20 animate-pulse"></div>
           <div class="text-center font-light text-neutral-500">Loading...</div>
         </div>
 
         <div class="flex flex-col gap-4">
-          <div class="w-48 h-48 bg-gray-200 animate-pulse"></div>
+          <div class="w-48 h-48 bg-gray-200/20 animate-pulse"></div>
           <div class="text-center font-light text-neutral-500">Loading...</div>
         </div>
       </div>
