@@ -6,12 +6,13 @@ database_url =
 
 # Configure your database
 config :roundest_phoenix, RoundestPhoenix.Repo,
-  url: database_url,
-  pool_size: 10,
-  ssl: true,
-  ssl_opts: [
-    verify: :verify_none
-  ]
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  database: "roundest_phoenix_dev",
+  stacktrace: true,
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
