@@ -44,6 +44,7 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
             src={"/pokemon/image/#{@firstEntry.dex_id}"}
             alt={"#{@firstEntry.name}"}
             class="w-48 h-48"
+            style="image-rendering: pixelated;"
           />
           <div class="text-center">
             <span class="text-gray-500 text-lg">#<%= @firstEntry.dex_id %></span>
@@ -64,6 +65,7 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
             src={"/pokemon/image/#{@secondEntry.dex_id}"}
             alt={"#{@secondEntry.name}"}
             class="w-48 h-48"
+            style="image-rendering: pixelated;"
           />
           <div class="text-center">
             <span class="text-gray-500 text-lg">#<%= @secondEntry.dex_id %></span>
