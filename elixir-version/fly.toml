@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for elixir-version-blue-butterfly-3085 on 2024-11-05T19:05:11-08:00
+# fly.toml app configuration file generated for roundest-phoenix on 2024-11-05T19:40:51-08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'elixir-version-blue-butterfly-3085'
+app = 'roundest-phoenix'
 primary_region = 'sjc'
 kill_signal = 'SIGTERM'
 
@@ -13,7 +13,7 @@ kill_signal = 'SIGTERM'
   release_command = '/app/bin/migrate'
 
 [env]
-  PHX_HOST = 'elixir-version-blue-butterfly-3085.fly.dev'
+  PHX_HOST = 'roundest-phoenix.fly.dev'
   PORT = '8080'
 
 [http_service]
