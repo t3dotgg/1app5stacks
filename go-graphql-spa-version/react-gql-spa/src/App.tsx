@@ -1,25 +1,21 @@
 import "./App.css";
 import { useQuery } from "@apollo/client";
 
-import { gql } from "./__generated__/gql";
+import { gql } from "../__generated__/";
 
-function App() {
-  const { data, loading } = useQuery(
-    gql(`
-    query RandomPair {
-      randomPair {
-        pokemonOne {
-          id
-          name
-        }
-        pokemonTwo {
-          id
-          name
-        }
+const PokeQuery = gql(/* GraphQL */ `
+  query RandomPair {
+    randomPair {
+      pokemonOne {
+        id
+        name
       }
     }
-  `)
-  );
+  }
+`);
+
+function App() {
+  const { data, loading } = useQuery(PokeQuery);
 
   if (loading || !data) return <div>Loading...</div>;
 

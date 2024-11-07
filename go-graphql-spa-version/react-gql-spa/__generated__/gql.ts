@@ -14,8 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
-    "\n    query RandomPair {\n      randomPair {\n        pokemonOne {\n          id\n          name\n        }\n        pokemonTwo {\n          id\n          name\n        }\n      }\n    }\n  ": types.RandomPairDocument,
-    "\n      query Pokemon {\n        pokemon {\n          name\n          id\n          upVotes\n          downVotes\n        }\n      }\n    ": types.PokemonDocument,
+    "\n  query RandomPair {\n    randomPair {\n      pokemonOne {\n        id\n        name\n      }\n    }\n  }\n": types.RandomPairDocument,
 };
 
 /**
@@ -35,11 +34,7 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n    query RandomPair {\n      randomPair {\n        pokemonOne {\n          id\n          name\n        }\n        pokemonTwo {\n          id\n          name\n        }\n      }\n    }\n  "): (typeof documents)["\n    query RandomPair {\n      randomPair {\n        pokemonOne {\n          id\n          name\n        }\n        pokemonTwo {\n          id\n          name\n        }\n      }\n    }\n  "];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n      query Pokemon {\n        pokemon {\n          name\n          id\n          upVotes\n          downVotes\n        }\n      }\n    "): (typeof documents)["\n      query Pokemon {\n        pokemon {\n          name\n          id\n          upVotes\n          downVotes\n        }\n      }\n    "];
+export function gql(source: "\n  query RandomPair {\n    randomPair {\n      pokemonOne {\n        id\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  query RandomPair {\n    randomPair {\n      pokemonOne {\n        id\n        name\n      }\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
