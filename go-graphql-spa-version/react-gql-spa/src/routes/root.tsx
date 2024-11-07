@@ -13,9 +13,13 @@ export const Root = () => (
           </Link>
         </div>
         <nav className="flex flex-row items-center gap-8">
-          <Link to="/prefetched" className="hover:underline text-lg">
-            Turbo Version
-          </Link>
+          <a
+            href="https://roundest-go.fly.dev/graphql"
+            target="_blank"
+            className="hover:underline text-lg"
+          >
+            GraphQL Explorer
+          </a>
           <Link to="/results" className="hover:underline text-lg">
             Results
           </Link>
