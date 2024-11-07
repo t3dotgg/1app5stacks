@@ -69,10 +69,10 @@ export type VoteResult = {
 export type RandomPairQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RandomPairQuery = { __typename?: 'RootQuery', randomPair?: { __typename?: 'RandomPair', pokemonOne?: { __typename?: 'Pokemon', id?: number | null, name?: string | null } | null } | null };
+export type RandomPairQuery = { __typename?: 'RootQuery', randomPair?: { __typename?: 'RandomPair', pokemonOne?: { __typename?: 'Pokemon', id?: number | null, name?: string | null } | null, pokemonTwo?: { __typename?: 'Pokemon', id?: number | null, name?: string | null } | null } | null };
 
 
-export const RandomPairDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RandomPair"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"randomPair"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pokemonOne"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<RandomPairQuery, RandomPairQueryVariables>;
+export const RandomPairDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RandomPair"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"randomPair"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pokemonOne"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pokemonTwo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<RandomPairQuery, RandomPairQueryVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -135,4 +135,4 @@ export type VoteResult = {
 export type RandomPairQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RandomPairQuery = { __typename?: 'RootQuery', randomPair?: { __typename?: 'RandomPair', pokemonOne?: { __typename?: 'Pokemon', id?: number | null, name?: string | null } | null } | null };
+export type RandomPairQuery = { __typename?: 'RootQuery', randomPair?: { __typename?: 'RandomPair', pokemonOne?: { __typename?: 'Pokemon', id?: number | null, name?: string | null } | null, pokemonTwo?: { __typename?: 'Pokemon', id?: number | null, name?: string | null } | null } | null };
