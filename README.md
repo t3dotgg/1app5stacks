@@ -8,7 +8,7 @@ I built the same app in 5 stacks\*. Those stacks are:
 - OG T3 Stack (Next.js/Pages + Prisma): https://roundest-t3.vercel.app/
 - Next.js RSCs + App Router: https://roundest-rsc.vercel.app/
 
-\* [Ben](https://github.com/bmdavis419) wrote all of the Go code and most of the Elixir version
+\* [Ben](https://www.youtube.com/@bmdavis419) wrote all of the Go code and most of the Elixir version
 
 ## Ruby on Rails
 
