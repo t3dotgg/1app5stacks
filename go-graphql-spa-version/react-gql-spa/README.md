@@ -5,5 +5,5 @@ This one started fun and slowly drove me insane. The hardest part was getting th
 ## Things I wanted to do but didn't end up doing
 
 - [ ] Reused `PokemonSprite` component
-- [ ] Rearchitect page components to own their loading states
+- [x] Rearchitect page components to have shared containers and meaningful loading states
 - [ ] Write utils to handle nullability in graphql so I don't need so many `!`'s

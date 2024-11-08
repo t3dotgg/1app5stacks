@@ -25,11 +25,11 @@ const Vote = gql(/* GraphQL */ `
   }
 `);
 
-function VotePage() {
+function VotePageContents() {
   const { data, loading, refetch } = useQuery(PokeQuery);
   const [voteMutation] = useMutation(Vote);
 
-  if (loading || !data || !data.randomPair) return <div>Loading...</div>;
+  if (loading || !data || !data.randomPair) return <VoteFallback />;
 
   const { pokemonOne, pokemonTwo } = data.randomPair;
 
@@ -41,7 +41,7 @@ function VotePage() {
   }
 
   return (
-    <div className="flex justify-center gap-16 items-center min-h-[80vh]">
+    <>
       {/* Pokemon One */}
       <div key={pokemonOne.id} className="flex flex-col items-center gap-4">
         <img
@@ -79,6 +79,31 @@ function VotePage() {
           </button>
         </div>
       </div>
+    </>
+  );
+}
+
+function VoteFallback() {
+  return (
+    <>
+      {[1, 2].map((i) => (
+        <div key={i} className="flex flex-col items-center gap-4">
+          <div className="w-64 h-64 bg-gray-800/10 rounded-lg animate-pulse" />
+          <div className="text-center space-y-2 flex flex-col items-center justify-center">
+            <div className="h-6 w-16 bg-gray-800/10 rounded animate-pulse" />
+            <div className="h-8 w-32 bg-gray-800/10 rounded animate-pulse" />
+            <div className="h-12 w-24 bg-gray-800/10 rounded animate-pulse" />
+          </div>
+        </div>
+      ))}
+    </>
+  );
+}
+
+function VotePage() {
+  return (
+    <div className="flex justify-center gap-16 items-center min-h-[80vh]">
+      <VotePageContents />
     </div>
   );
 }
