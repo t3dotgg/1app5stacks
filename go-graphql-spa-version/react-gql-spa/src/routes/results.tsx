@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 
 import { gql } from "../../__generated__/";
+import { PokemonSprite } from "../utils/sprite";
 
 const PokeQuery = gql(/* GraphQL */ `
   query ResultsQuery {
@@ -35,11 +36,7 @@ function ResultsPageContents() {
             #{index + 1}
           </div>
 
-          <img
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.dexId}.png`}
-            className="w-20 h-20"
-            style={{ imageRendering: "pixelated" }}
-          />
+          <PokemonSprite dexId={pokemon.dexId!} className="w-20 h-20" />
 
           <div className="flex-grow">
             <div className="text-gray-400 text-sm">#{pokemon.dexId}</div>
