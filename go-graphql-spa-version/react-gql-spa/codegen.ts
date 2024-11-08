@@ -6,7 +6,6 @@ const config: CodegenConfig = {
   documents: ["src/**/*.{ts,tsx}"],
   generates: {
     "./__generated__/": {
-      plugins: ["typescript", "typescript-operations"],
       preset: "client",
 
       presetConfig: {
