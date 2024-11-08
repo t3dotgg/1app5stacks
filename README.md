@@ -8,4 +8,4 @@ I built the same app in 5 stacks\*. Those stacks are:
 - OG T3 Stack (Next.js, TypeScript, Tailwind, tRPC, Prisma)
 - Next.js RSCs + App Router: https://roundest-rsc.vercel.app/
 
-\* [Ben](youtube.com/@bmdavis419/) wrote most of the Go and Elixir versions
+\* [Ben](youtube.com/@bmdavis419/) wrote all of the Go code and most of the Elixir version
