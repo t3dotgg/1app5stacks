@@ -16,6 +16,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  query RandomPair {\n    randomPair {\n      pokemonOne {\n        id\n        name\n      }\n      pokemonTwo {\n        id\n        name\n      }\n    }\n  }\n": types.RandomPairDocument,
     "\n  mutation Vote($upvoteId: Int!, $downvoteId: Int!) {\n    vote(upvoteId: $upvoteId, downvoteId: $downvoteId) {\n      success\n    }\n  }\n": types.VoteDocument,
+    "\n  query ResultsQuery {\n    results {\n      dexId\n      downVotes\n      upVotes\n      name\n      winPercentage\n    }\n  }\n": types.ResultsQueryDocument,
 };
 
 /**
@@ -40,6 +41,10 @@ export function gql(source: "\n  query RandomPair {\n    randomPair {\n      pok
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation Vote($upvoteId: Int!, $downvoteId: Int!) {\n    vote(upvoteId: $upvoteId, downvoteId: $downvoteId) {\n      success\n    }\n  }\n"): (typeof documents)["\n  mutation Vote($upvoteId: Int!, $downvoteId: Int!) {\n    vote(upvoteId: $upvoteId, downvoteId: $downvoteId) {\n      success\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query ResultsQuery {\n    results {\n      dexId\n      downVotes\n      upVotes\n      name\n      winPercentage\n    }\n  }\n"): (typeof documents)["\n  query ResultsQuery {\n    results {\n      dexId\n      downVotes\n      upVotes\n      name\n      winPercentage\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

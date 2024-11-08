@@ -79,9 +79,15 @@ export type VoteMutationVariables = Exact<{
 
 export type VoteMutation = { __typename?: 'Mutation', vote?: { __typename?: 'VoteResult', success?: boolean | null } | null };
 
+export type ResultsQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ResultsQueryQuery = { __typename?: 'RootQuery', results?: Array<{ __typename?: 'Result', dexId?: number | null, downVotes?: number | null, upVotes?: number | null, name?: string | null, winPercentage?: number | null } | null> | null };
+
 
 export const RandomPairDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RandomPair"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"randomPair"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pokemonOne"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pokemonTwo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<RandomPairQuery, RandomPairQueryVariables>;
 export const VoteDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Vote"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"upvoteId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"downvoteId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"vote"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"upvoteId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"upvoteId"}}},{"kind":"Argument","name":{"kind":"Name","value":"downvoteId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"downvoteId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]}}]} as unknown as DocumentNode<VoteMutation, VoteMutationVariables>;
+export const ResultsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ResultsQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dexId"}},{"kind":"Field","name":{"kind":"Name","value":"downVotes"}},{"kind":"Field","name":{"kind":"Name","value":"upVotes"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"winPercentage"}}]}}]}}]} as unknown as DocumentNode<ResultsQueryQuery, ResultsQueryQueryVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -153,3 +159,8 @@ export type VoteMutationVariables = Exact<{
 
 
 export type VoteMutation = { __typename?: 'Mutation', vote?: { __typename?: 'VoteResult', success?: boolean | null } | null };
+
+export type ResultsQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ResultsQueryQuery = { __typename?: 'RootQuery', results?: Array<{ __typename?: 'Result', dexId?: number | null, downVotes?: number | null, upVotes?: number | null, name?: string | null, winPercentage?: number | null } | null> | null };
