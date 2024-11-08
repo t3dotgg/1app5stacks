@@ -27,13 +27,48 @@ export const pokemonRouter = createTRPCRouter({
   }),
 
   vote: publicProcedure
-    .input(z.object({ upvoteId: z.number(), downvoteId: z.number() }))
+    .input(z.object({ votedForId: z.number(), votedAgainstId: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      // return ctx.db.vote.create({
-      //   data: input,
-      // });
-
-      console.log(input);
-      // TODO: implement this
+      return ctx.db.vote.create({
+        data: input,
+      });
     }),
+
+  results: publicProcedure.query(async ({ ctx }) => {
+    const votesPerPokemon = await ctx.db.pokemon.findMany({
+      select: {
+        id: true,
+        name: true,
+        _count: {
+          select: {
+            VoteFor: true,
+            VoteAgainst: true,
+          },
+        },
+      },
+    });
+
+    return votesPerPokemon
+      .map((pokemon) => {
+        const upVotes = pokemon._count.VoteFor;
+        const downVotes = pokemon._count.VoteAgainst;
+        const totalVotes = upVotes + downVotes;
+
+        return {
+          dexId: pokemon.id,
+          name: pokemon.name,
+          upVotes,
+          downVotes,
+          winPercentage: totalVotes > 0 ? (upVotes / totalVotes) * 100 : 0,
+        };
+      })
+      .sort((a, b) => {
+        // Sort by win percentage first
+        if (b.winPercentage !== a.winPercentage) {
+          return b.winPercentage - a.winPercentage;
+        }
+        // Break ties by upvotes
+        return b.upVotes - a.upVotes;
+      });
+  }),
 });
