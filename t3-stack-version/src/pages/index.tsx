@@ -4,7 +4,11 @@ import getLayout from "~/utils/layout";
 import { PokemonSprite } from "~/utils/sprite";
 
 function VotePageContents() {
-  const { data, isLoading, refetch } = api.pokemon.getPair.useQuery();
+  const { data, isLoading, refetch } = api.pokemon.getPair.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  });
   const { mutate: voteMutation } = api.pokemon.vote.useMutation();
 
   if (isLoading || !data) return <VoteFallback />;
@@ -14,7 +18,7 @@ function VotePageContents() {
   if (!pokemonOne || !pokemonTwo) throw new Error("No pokemon found");
 
   function handleVote(winnerId: number, loserId: number) {
-    void voteMutation({ upvoteId: winnerId, downvoteId: loserId });
+    void voteMutation({ votedForId: winnerId, votedAgainstId: loserId });
     void refetch();
   }
 
