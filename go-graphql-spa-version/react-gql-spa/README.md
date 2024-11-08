@@ -6,5 +6,6 @@ This one started fun and slowly drove me insane. The hardest part was getting th
 
 - [x] Reused `PokemonSprite` component
 - [x] Rearchitect page components to have shared containers and meaningful loading states
+- [ ] Move GraphQL endpoint to env var (+ some solution to use local go server)
 - [ ] Write utils to handle nullability in graphql so I don't need so many `!`'s
   - The options for this suck so I'm not doing it
