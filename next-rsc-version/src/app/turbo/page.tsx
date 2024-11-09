@@ -11,9 +11,9 @@ export const metadata = {
 };
 
 async function VoteContent() {
-  const twoPokemonJSON = (await cookies()).get("currentPair")?.value;
-  const twoPokemon = twoPokemonJSON
-    ? (JSON.parse(twoPokemonJSON) as PokemonPair)
+  const currentPokemonPairJSON = (await cookies()).get("currentPair")?.value;
+  const currentPokemonPair = currentPokemonPairJSON
+    ? (JSON.parse(currentPokemonPairJSON) as PokemonPair)
     : await getTwoRandomPokemon();
 
   const nextPair = await getTwoRandomPokemon();
@@ -30,7 +30,7 @@ async function VoteContent() {
           />
         ))}
       </div>
-      {twoPokemon.map((pokemon, index) => (
+      {currentPokemonPair.map((pokemon, index) => (
         <div
           key={pokemon.dexNumber}
           className="flex flex-col items-center gap-4"
@@ -45,7 +45,7 @@ async function VoteContent() {
                   "use server";
                   console.log("voted for", pokemon.name, pokemon.dexNumber);
 
-                  const loser = twoPokemon[index === 0 ? 1 : 0];
+                  const loser = currentPokemonPair[index === 0 ? 1 : 0];
 
                   recordBattle(pokemon.dexNumber, loser.dexNumber);
 
