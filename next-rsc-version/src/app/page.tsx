@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { Suspense } from "react";
 import PokemonSprite from "@/utils/pokemon-sprite";
 import VoteFallback from "@/utils/vote-fallback";
-import { waitUntil } from "@vercel/functions";
 
 async function VoteContent() {
   const twoPokemon = await getTwoRandomPokemon();
@@ -28,7 +27,7 @@ async function VoteContent() {
 
                   const loser = twoPokemon[index === 0 ? 1 : 0];
 
-                  waitUntil(recordBattle(pokemon.dexNumber, loser.dexNumber));
+                  recordBattle(pokemon.dexNumber, loser.dexNumber);
                   revalidatePath("/");
                 }}
                 className="px-8 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors"
