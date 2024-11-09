@@ -32,7 +32,7 @@ class PokemonsController < ApplicationController
   end
 
   def results
-    @pokemons = Pokemon.all.sort_by { |pokemon| -pokemon.win_loss_ratio }
+    @pokemons = Pokemon.sorted_by_win_loss_ratio
   end
 
   private

@@ -6,7 +6,7 @@
           #<%= index + 1 %>
         </div>
 
-        <%= image_tag pokemon.sprite, 
+        <%= image_tag pokemon.sprite,
             class: "w-20 h-20",
             loading: "lazy",
             alt: pokemon.name %>
@@ -21,7 +21,7 @@
             <%= number_to_percentage(pokemon.win_percentage, precision: 1) %>
           </div>
           <div class="text-sm text-gray-400">
-            <%= pokemon.won_votes.count %>W - <%= pokemon.lost_votes.count %>L
+            <%= pokemon.won_votes_count %>W - <%= pokemon.lost_votes_count %>L
           </div>
         </div>
       </div>

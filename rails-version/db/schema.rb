@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_09_204041) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_09_135629) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_09_204041) do
     t.string "name"
     t.integer "dex_id"
     t.string "sprite"
+    t.integer "won_votes_count", default: 0
+    t.integer "lost_votes_count", default: 0
   end
 
   create_table "votes", force: :cascade do |t|

@@ -52,4 +52,29 @@ namespace :pokemon do
 
     puts "Pokémon data seeding completed!"
   end
+
+  desc "Update Pokemon wins and losses counters based on Votes"
+  task update_counters: :environment do
+    puts "Updating wins_count for all Pokemon..."
+    ActiveRecord::Base.connection.execute(<<~SQL)
+    UPDATE pokemons
+    SET won_votes_count = (
+      SELECT COUNT(1)
+      FROM votes
+      WHERE votes.winner_id = pokemons.id
+    )
+    SQL
+    puts "wins_count updated."
+
+    puts "Updating losses_count for all Pokemon..."
+    ActiveRecord::Base.connection.execute(<<~SQL)
+    UPDATE pokemons
+    SET lost_votes_count = (
+      SELECT COUNT(1)
+      FROM votes
+      WHERE votes.loser_id = pokemons.id
+    )
+    SQL
+    puts "losses_count updated."
+  end
 end
