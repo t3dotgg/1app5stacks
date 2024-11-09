@@ -13,6 +13,11 @@ module RailsVersion
 
     config.assets.enabled = true
 
+    config.cache_store = :memory_store, {
+      size: 64.megabytes,
+      expires_in: 1.day
+    }
+
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.

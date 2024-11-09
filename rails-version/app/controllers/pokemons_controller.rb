@@ -3,7 +3,10 @@ class PokemonsController < ApplicationController
 
   # GET /pokemons or /pokemons.json
   def index
-    @pokemons = Pokemon.all
+    cache_key = Pokemon.all.cache_key_with_version
+    @pokemons = Rails.cache.fetch(cache_key, expires_in: 1.day) do
+      Pokemon.all.to_a
+    end
   end
 
   # GET /pokemons/1 or /pokemons/1.json
@@ -32,7 +35,10 @@ class PokemonsController < ApplicationController
   end
 
   def results
-    @pokemons = Pokemon.sorted_by_win_loss_ratio
+    cache_key = Pokemon.sorted_by_win_loss_ratio.cache_key_with_version
+    @pokemons = Rails.cache.fetch(cache_key, expires_in: 1.day) do
+      Pokemon.sorted_by_win_loss_ratio.to_a
+    end
   end
 
   private
