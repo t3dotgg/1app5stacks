@@ -40,7 +40,7 @@ export default function RootLayout({
             </div>
             <nav className="flex flex-row items-center gap-8">
               <Link
-                href="/prefetched"
+                href="/turbo"
                 className="hover:underline text-lg"
                 prefetch={false}
               >

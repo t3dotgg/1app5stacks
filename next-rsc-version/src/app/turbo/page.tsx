@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import PokemonSprite from "@/utils/pokemon-sprite";
 import VoteFallback from "@/utils/vote-fallback";
 import { waitUntil } from "@vercel/functions";
+import { revalidatePath } from "next/cache";
 
 export const metadata = {
   title: "Over-Optimized Version | Roundest (RSC Version)",
@@ -52,6 +53,9 @@ async function VoteContent() {
 
                   const jar = await cookies();
                   jar.set("currentPair", JSON.stringify(nextPair));
+
+                  // Deleting this speeds up page revalidation
+                  revalidatePath("/turbo");
                 }}
                 className="px-8 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors"
               >
