@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { Suspense } from "react";
 import PokemonSprite from "@/utils/pokemon-sprite";
 import VoteFallback from "@/utils/vote-fallback";
+import { waitUntil } from "@vercel/functions";
 
 export const metadata = {
   title: "Over-Optimized Version | Roundest (RSC Version)",
@@ -48,7 +49,7 @@ async function VoteContent() {
 
                   const loser = twoPokemon[index === 0 ? 1 : 0];
 
-                  await recordBattle(pokemon.dexNumber, loser.dexNumber);
+                  waitUntil(recordBattle(pokemon.dexNumber, loser.dexNumber));
 
                   const jar = await cookies();
                   jar.set("currentPair", JSON.stringify(nextPair));
