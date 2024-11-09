@@ -9,6 +9,11 @@ class HomeController < ApplicationController
 
     Vote.create(winner: winner, loser: loser)
 
-    redirect_to root_path
+    respond_to do |format|
+      format.turbo_stream do
+        @pokemon_pair = Pokemon.random_pair
+      end
+      format.html { redirect_to root_path }
+    end
   end
 end
