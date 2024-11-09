@@ -43,10 +43,10 @@ Line counts:
 
 Line counts:
 
-- Typescript: 467 LOC
-- Total: 493 LOC
+- Typescript: 434 LOC
+- Total: 460 LOC
 
-WITHOUT TURBO:
+Without the turbo version:
 
-- Typescript: 363 LOC
-- Total: 389 LOC
+- Typescript: 341 LOC
+- Total: 367 LOC
