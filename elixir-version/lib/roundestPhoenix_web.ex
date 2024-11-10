@@ -84,7 +84,6 @@ defmodule RoundestPhoenixWeb do
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components and translation
-      import RoundestPhoenixWeb.CoreComponents
       import RoundestPhoenixWeb.Gettext
 
       # Shortcut for generating JS commands
