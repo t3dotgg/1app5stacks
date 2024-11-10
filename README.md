@@ -19,15 +19,17 @@ Line counts:
 
 ## Elixir + Phoenix
 
+Note: I deleted >1k lines of stuff that the template came with.
+
 Line counts:
 
-- Elixir: 1447 LOC
-- Total: 1852 LOC
+- Elixir: 991 LOC
+- Total: 1395 LOC
 
 Without turbo:
 
-- Elixir: 1288 LOC
-- Total: 1693 LOC
+- Elixir: 832 LOC
+- Total: 1236 LOC
 
 ## Go + GraphQL + React SPA
 
