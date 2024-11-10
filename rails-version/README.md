@@ -1,4 +1,4 @@
-# Roundest (Rails Version)
+# Roundest (Ruby On Rails Version)
 
 This was not fun.
 
@@ -16,3 +16,8 @@ This was not fun.
    ```
 
 Note: Running `bin/dev` is required for Tailwind CSS to work properly.
+
+## Deployment
+
+1. Install the Fly.io CLI
+2. Launch with `fly launch` (yes it's actually that easy)
