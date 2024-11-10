@@ -21,8 +21,13 @@ Line counts:
 
 Line counts:
 
-- Elixir: 1607 LOC
-- Total: 2019 LOC
+- Elixir: 1447 LOC
+- Total: 1852 LOC
+
+Without turbo:
+
+- Elixir: 1288 LOC
+- Total: 1693 LOC
 
 ## Go + GraphQL + React SPA
 
