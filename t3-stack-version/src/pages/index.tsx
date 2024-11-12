@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { api } from "~/utils/api";
 import getLayout from "~/utils/layout";
 
@@ -77,6 +78,9 @@ function VoteFallback() {
 function VotePage() {
   return (
     <div className="flex min-h-[80vh] items-center justify-center gap-16">
+      <Head>
+        <title>Roundest (T3 Stack Version)</title>
+      </Head>
       <VotePageContents />
     </div>
   );

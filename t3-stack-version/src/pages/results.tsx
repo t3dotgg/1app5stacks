@@ -2,6 +2,7 @@ import { PokemonSprite } from "~/utils/sprite";
 
 import { api } from "~/utils/api";
 import getLayout from "~/utils/layout";
+import Head from "next/head";
 
 function ResultsPageContents() {
   const { data, isLoading } = api.pokemon.results.useQuery();
@@ -67,6 +68,9 @@ function ResultsPageFallback() {
 function ResultsPage() {
   return (
     <div className="container mx-auto px-4 py-8 text-white">
+      <Head>
+        <title>Results (T3 Stack Version)</title>
+      </Head>
       <div className="grid gap-4">
         <ResultsPageContents />
       </div>
