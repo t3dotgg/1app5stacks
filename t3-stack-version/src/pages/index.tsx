@@ -16,8 +16,6 @@ function VotePageContents() {
 
   const [pokemonOne, pokemonTwo] = data;
 
-  if (!pokemonOne || !pokemonTwo) throw new Error("No pokemon found");
-
   function handleVote(winnerId: number, loserId: number) {
     void voteMutation({ votedForId: winnerId, votedAgainstId: loserId });
     void refetch();
