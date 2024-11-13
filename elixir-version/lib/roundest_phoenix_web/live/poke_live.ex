@@ -113,8 +113,8 @@ defmodule RoundestPhoenixWeb.PokeLive do
 
     [winner, loser] =
       case firstEntry.id == winner_id do
-        true -> [secondEntry, firstEntry]
-        false -> [firstEntry, secondEntry]
+        true -> [firstEntry, secondEntry]
+        false -> [secondEntry, firstEntry]
       end
 
     IO.puts(winner.name)

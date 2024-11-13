@@ -36,16 +36,18 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
     ~H"""
     <div class="w-full grow flex flex-col items-center justify-center gap-8">
       <%!-- Hidden images to preload --%>
-      <img
-        src={"/pokemon/image/#{@nextFirstEntry.dex_id}"}
-        alt={"#{@nextFirstEntry.name}"}
-        class="w-0 h-0"
-      />
-      <img
-        src={"/pokemon/image/#{@nextSecondEntry.dex_id}"}
-        alt={"#{@nextSecondEntry.name}"}
-        class="w-0 h-0"
-      />
+      <div class="hidden">
+        <img
+          src={"/pokemon/image/#{@nextFirstEntry.dex_id}"}
+          alt={"#{@nextFirstEntry.name}"}
+          class="w-0 h-0"
+        />
+        <img
+          src={"/pokemon/image/#{@nextSecondEntry.dex_id}"}
+          alt={"#{@nextSecondEntry.name}"}
+          class="w-0 h-0"
+        />
+      </div>
       <div class="md:grid grid-cols-2 gap-8">
         <div class="flex flex-col gap-4">
           <img
@@ -94,24 +96,18 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
   end
 
   def handle_event("vote", %{"winner_id" => winner_id, "loser_id" => loser_id}, socket) do
-    case record_vote(socket, winner_id, loser_id) do
-      {:ok, _} ->
-        firstEntry = socket.assigns.nextFirstEntry
-        secondEntry = socket.assigns.nextSecondEntry
-        [nextFirstEntry, nextSecondEntry] = get_random_pair()
+    Task.start(fn -> record_vote(socket, winner_id, loser_id) |> IO.inspect() end)
 
-        {:noreply,
-         socket
-         |> assign(:firstEntry, firstEntry)
-         |> assign(:secondEntry, secondEntry)
-         |> assign(:nextFirstEntry, nextFirstEntry)
-         |> assign(:nextSecondEntry, nextSecondEntry)}
+    firstEntry = socket.assigns.nextFirstEntry
+    secondEntry = socket.assigns.nextSecondEntry
+    [nextFirstEntry, nextSecondEntry] = get_random_pair()
 
-      {:error, _} ->
-        {:noreply,
-         socket
-         |> put_flash(:error, "Failed to record vote")}
-    end
+    {:noreply,
+      socket
+      |> assign(:firstEntry, firstEntry)
+      |> assign(:secondEntry, secondEntry)
+      |> assign(:nextFirstEntry, nextFirstEntry)
+      |> assign(:nextSecondEntry, nextSecondEntry)}
   end
 
   # tragic: https://kobrakai.de/kolumne/liveview-double-mount
