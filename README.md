@@ -10,50 +10,20 @@ I built the same app in 5 stacks\*. Those stacks are:
 
 \* [Ben](https://www.youtube.com/@bmdavis419) wrote all of the Go code and most of the Elixir version
 
-## Ruby on Rails
+## Line of Code comparison
 
-Line counts:
+Don't read too much into this, I just found it interesting.
 
-- Ruby: 509 LOC
-- Total: 1014 LOC
+Note: Both the Elixir and RSC versions have a "turbo" route with a lot of duplicated code, so I included a 2nd count for those with the turbo routes removed.
 
-## Elixir + Phoenix
+| Stack                              | Primary Language LOC                    | Total LOC   |
+| ---------------------------------- | --------------------------------------- | ----------- |
+| Ruby on Rails                      | 509 lines (Ruby)                        | 1,014 lines |
+| Elixir + Phoenix\*                 | 991 lines (Elixir)                      | 1,395 lines |
+| Elixir + Phoenix\* (without turbo) | 832 lines (Elixir)                      | 1,236 lines |
+| Go + gql + React                   | 440 lines (TypeScript) + 423 lines (Go) | 940 lines   |
+| OG T3 Stack                        | 443 lines (TypeScript)                  | 585 lines   |
+| RSC version                        | 425 lines (TypeScript)                  | 451 lines   |
+| RSC version (without turbo)        | 332 lines (TypeScript)                  | 358 lines   |
 
-Note: I deleted >1k lines of stuff that the template came with.
-
-Line counts:
-
-- Elixir: 991 LOC
-- Total: 1395 LOC
-
-Without turbo:
-
-- Elixir: 832 LOC
-- Total: 1236 LOC
-
-## Go + GraphQL + React SPA
-
-Line counts:
-
-- TypeScript: 440 LOC
-- Go: 423 LOC
-- Total: 940 LOC
-
-## OG T3 Stack (Next.js/Pages + Prisma)
-
-Line counts:
-
-- Typescript: 443 LOC
-- Total: 585 LOC
-
-## RSC version
-
-Line counts:
-
-- Typescript: 425 LOC
-- Total: 451 LOC
-
-Without the turbo version:
-
-- Typescript: 332 LOC
-- Total: 358 LOC
+\* I deleted ~1,000 lines from the Phoenix template (and still had this much code left)
