@@ -1,17 +1,8 @@
-import localFont from "next/font/local";
+import { Geist } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+const geistSans = Geist();
 
 export const metadata = {
   title: "Roundest (RSC Version)",
@@ -26,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-950 text-white flex flex-col justify-between min-h-screen border-t-2 border-blue-300`}
+        className={`${geistSans.className} antialiased bg-gray-950 text-white flex flex-col justify-between min-h-screen border-t-2 border-blue-300`}
       >
         <header className="py-4 px-8">
           <div className="flex items-center justify-between">

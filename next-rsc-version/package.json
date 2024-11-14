@@ -11,9 +11,9 @@
   "dependencies": {
     "@vercel/functions": "^1.4.2",
     "@vercel/kv": "^3.0.0",
-    "next": "15.0.3-canary.4",
-    "react": "19.0.0-rc-1631855f-20241023",
-    "react-dom": "19.0.0-rc-1631855f-20241023"
+    "next": "15.0.4-canary.11",
+    "react": "19.0.0-rc-b01722d5-20241114",
+    "react-dom": "19.0.0-rc-b01722d5-20241114"
   },
   "devDependencies": {
     "@types/node": "^20",
