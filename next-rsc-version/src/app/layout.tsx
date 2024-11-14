@@ -2,7 +2,9 @@ import { Geist } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 
-const geistSans = Geist();
+const geistSans = Geist({
+  subsets: ["latin"],
+});
 
 export const metadata = {
   title: "Roundest (RSC Version)",
