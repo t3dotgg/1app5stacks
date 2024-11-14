@@ -23,7 +23,7 @@ Note: Both the Elixir and RSC versions have a "turbo" route with a lot of duplic
 | Elixir + Phoenix\* (without turbo) | 832 lines (Elixir)                      | 1,236 lines |
 | Go + gql + React                   | 440 lines (TypeScript) + 423 lines (Go) | 940 lines   |
 | OG T3 Stack                        | 443 lines (TypeScript)                  | 585 lines   |
-| RSC version                        | 425 lines (TypeScript)                  | 451 lines   |
-| RSC version (without turbo)        | 332 lines (TypeScript)                  | 358 lines   |
+| RSC version                        | 427 lines (TypeScript)                  | 453 lines   |
+| RSC version (without turbo)        | 334 lines (TypeScript)                  | 360 lines   |
 
 \* I deleted ~1,000 lines from the Phoenix template (and still had this much code left)
