@@ -13,36 +13,3 @@
  *= require_tree .
  *= require_self
  */
-
-#results-chart {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.pokemon-result {
-  margin-bottom: 10px;
-}
-
-.pokemon-name {
-  display: inline-block;
-  width: 150px;
-  font-weight: bold;
-}
-
-.bar-container {
-  display: inline-block;
-  width: calc(100% - 160px);
-  background-color: #f0f0f0;
-  height: 20px;
-}
-
-.bar {
-  height: 100%;
-  background-color: #4caf50;
-  color: white;
-  text-align: right;
-  padding-right: 5px;
-  box-sizing: border-box;
-  min-width: 20px;
-}

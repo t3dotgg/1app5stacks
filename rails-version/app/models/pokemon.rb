@@ -1,32 +1,38 @@
 class Pokemon < ApplicationRecord
-  has_many :won_votes, class_name: 'Vote', foreign_key: 'winner_id'
-  has_many :lost_votes, class_name: 'Vote', foreign_key: 'loser_id'
+  has_many :won_votes, class_name: 'Vote', foreign_key: 'winner_id', counter_cache: true
+  has_many :lost_votes, class_name: 'Vote', foreign_key: 'loser_id', counter_cache: true
 
   def self.random_pair
-    val = order("RANDOM()").limit(2).to_a
-    puts "Random pair: #{val.map(&:name).join(', ')}"
-    puts "Leaving random pair fetcher"
-    val
+    order("RANDOM()").limit(2)
+  end
+
+  def self.sorted_by_win_loss_ratio
+    select("pokemons.*,
+            CASE
+              WHEN (won_votes_count + lost_votes_count) = 0 THEN 0
+              ELSE (100.0 * won_votes_count / (won_votes_count + lost_votes_count))
+            END AS win_loss_ratio")
+      .order(win_loss_ratio: :desc, won_votes_count: :desc)
   end
 
   def win_loss_ratio
-    total_votes = won_votes.count + lost_votes.count
+    value = read_attribute(:win_loss_ratio)
+    return value.to_f.round(2) if value
+
+    total_votes = won_votes_count + lost_votes_count
     return 0 if total_votes == 0
-    
-    (won_votes.count.to_f / total_votes * 100).round(2)
+
+    (100.0 * won_votes_count / total_votes).round(2)
   end
 
   def win_percentage
-    total_votes = won_votes.count + lost_votes.count
-    return 0 if total_votes == 0
-
-    (won_votes.count.to_f / total_votes * 100).round(2)
+    win_loss_ratio
   end
 
   def loss_percentage
-    total_votes = won_votes.count + lost_votes.count
+    total_votes = won_votes_count + lost_votes_count
     return 0 if total_votes == 0
 
-    (lost_votes.count.to_f / total_votes * 100).round(2)
+    (100.0 * lost_votes_count / total_votes).round(2)
   end
 end
