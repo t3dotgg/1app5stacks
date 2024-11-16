@@ -1,6 +1,5 @@
 defmodule RoundestPhoenixWeb.PRELOADPokeLive do
-  use Phoenix.LiveView,
-    layout: {RoundestPhoenixWeb.Layouts, :app}
+  use RoundestPhoenixWeb, :live_view
 
   import Ecto.Query
   alias RoundestPhoenix.Repo
@@ -36,22 +35,17 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
     ~H"""
     <div class="w-full grow flex flex-col items-center justify-center gap-8">
       <%!-- Hidden images to preload --%>
-      <div class="hidden">
+     <div class="hidden" :for={pokeId <- @all_pokeids}>
         <img
-          src={"/pokemon/image/#{@nextFirstEntry.dex_id}"}
-          alt={"#{@nextFirstEntry.name}"}
-          class="w-0 h-0"
-        />
-        <img
-          src={"/pokemon/image/#{@nextSecondEntry.dex_id}"}
-          alt={"#{@nextSecondEntry.name}"}
+          src={~p"/images/#{to_string(pokeId) <> ".png"}"}
+          alt={"#{pokeId}"}
           class="w-0 h-0"
         />
       </div>
       <div class="md:grid grid-cols-2 gap-8">
         <div class="flex flex-col gap-4">
           <img
-            src={"/pokemon/image/#{@firstEntry.dex_id}"}
+            src={~p"/images/#{to_string(@firstEntry.dex_id) <> ".png"}"}
             alt={"#{@firstEntry.name}"}
             class="w-48 h-48"
             style="image-rendering: pixelated;"
@@ -72,7 +66,7 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
 
         <div class="flex flex-col gap-4">
           <img
-            src={"/pokemon/image/#{@secondEntry.dex_id}"}
+            src={~p"/images/#{to_string(@secondEntry.dex_id) <> ".png"}"}
             alt={"#{@secondEntry.name}"}
             class="w-48 h-48"
             style="image-rendering: pixelated;"
@@ -98,34 +92,31 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
   def handle_event("vote", %{"winner_id" => winner_id, "loser_id" => loser_id}, socket) do
     Task.start(fn -> record_vote(socket, winner_id, loser_id) |> IO.inspect() end)
 
-    firstEntry = socket.assigns.nextFirstEntry
-    secondEntry = socket.assigns.nextSecondEntry
-    [nextFirstEntry, nextSecondEntry] = get_random_pair()
+    [firstEntry, secondEntry] = get_random_pair(socket.assigns.all_pokeids)
 
     {:noreply,
       socket
       |> assign(:firstEntry, firstEntry)
       |> assign(:secondEntry, secondEntry)
-      |> assign(:nextFirstEntry, nextFirstEntry)
-      |> assign(:nextSecondEntry, nextSecondEntry)}
+  }
   end
 
   # tragic: https://kobrakai.de/kolumne/liveview-double-mount
   def mount(_params, _session, socket) do
+    all_pokeids = get_all_ids()
+
     case connected?(socket) do
       true ->
-        [firstEntry, secondEntry] = get_random_pair()
-        [nextFirstEntry, nextSecondEntry] = get_random_pair()
+        [firstEntry, secondEntry] = get_random_pair(all_pokeids)
 
         {:ok,
          socket
          |> assign(:firstEntry, firstEntry)
          |> assign(:secondEntry, secondEntry)
-         |> assign(:nextFirstEntry, nextFirstEntry)
-         |> assign(:nextSecondEntry, nextSecondEntry)}
+         |> assign(:all_pokeids, all_pokeids)}
 
       false ->
-        {:ok, assign(socket, page: "loading")}
+        {:ok, assign(socket, page: "loading", all_pokeids: all_pokeids)}
     end
   end
 
@@ -163,13 +154,22 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
     end)
   end
 
-  defp get_random_pair do
+  defp get_random_pair(all_pokeids) do
+    first = Enum.random(all_pokeids)
+    second = Enum.random(all_pokeids)
+
     query =
       from(e in Pokemon,
-        order_by: fragment("RANDOM()"),
+        where: e.dex_id in ^[first, second],
         limit: 2
       )
 
     Repo.all(query)
+  end
+
+  defp get_all_ids do
+    from(e in Pokemon, select: e.dex_id)
+    |> Repo.all()
+    |> MapSet.new()
   end
 end

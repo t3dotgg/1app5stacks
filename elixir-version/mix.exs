@@ -57,9 +57,7 @@ defmodule RoundestPhoenix.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.20"},
       {:httpoison, "~> 2.0"},
-      {:cachex, "~> 3.6"},
       {:jason, "~> 1.4"},
-      {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"}
     ]
   end
