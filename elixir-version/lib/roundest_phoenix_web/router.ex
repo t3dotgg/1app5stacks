@@ -18,7 +18,6 @@ defmodule RoundestPhoenixWeb.Router do
   scope "/", RoundestPhoenixWeb do
     pipe_through :browser
 
-    get "/pokemon/image/:dex_id", PokemonController, :show_image
     get "/results", PokemonController, :show_results
     live "/", PokeLive
     live "/turbo", PRELOADPokeLive

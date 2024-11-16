@@ -1,6 +1,5 @@
 defmodule RoundestPhoenixWeb.PRELOADPokeLive do
-  use Phoenix.LiveView,
-    layout: {RoundestPhoenixWeb.Layouts, :app}
+  use RoundestPhoenixWeb, :live_view
 
   import Ecto.Query
   alias RoundestPhoenix.Repo
@@ -35,23 +34,10 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
   def render(assigns) do
     ~H"""
     <div class="w-full grow flex flex-col items-center justify-center gap-8">
-      <%!-- Hidden images to preload --%>
-      <div class="hidden">
-        <img
-          src={"/pokemon/image/#{@nextFirstEntry.dex_id}"}
-          alt={"#{@nextFirstEntry.name}"}
-          class="w-0 h-0"
-        />
-        <img
-          src={"/pokemon/image/#{@nextSecondEntry.dex_id}"}
-          alt={"#{@nextSecondEntry.name}"}
-          class="w-0 h-0"
-        />
-      </div>
       <div class="md:grid grid-cols-2 gap-8">
         <div class="flex flex-col gap-4">
           <img
-            src={"/pokemon/image/#{@firstEntry.dex_id}"}
+            src={~p"/images/#{to_string(@firstEntry.dex_id) <> ".png"}"}
             alt={"#{@firstEntry.name}"}
             class="w-48 h-48"
             style="image-rendering: pixelated;"
@@ -72,7 +58,7 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
 
         <div class="flex flex-col gap-4">
           <img
-            src={"/pokemon/image/#{@secondEntry.dex_id}"}
+            src={~p"/images/#{to_string(@secondEntry.dex_id) <> ".png"}"}
             alt={"#{@secondEntry.name}"}
             class="w-48 h-48"
             style="image-rendering: pixelated;"
@@ -91,85 +77,73 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
           </button>
         </div>
       </div>
+      <%!-- Hidden images to preload --%>
+      <div :for={pokeId <- @needs_preload |> Enum.take(10)} class="hidden">
+        <link
+          id={"preload-#{pokeId}"}
+          phx-hook="RemoveAfterLoad"
+          rel="preload"
+          href={~p"/images/#{to_string(pokeId) <> ".png"}"}
+          as="image"
+        />
+      </div>
     </div>
     """
   end
 
-  def handle_event("vote", %{"winner_id" => winner_id, "loser_id" => loser_id}, socket) do
-    Task.start(fn -> record_vote(socket, winner_id, loser_id) |> IO.inspect() end)
+  def handle_event("preload-done", %{"id" => id}, socket) do
+    needs_preload = socket.assigns.needs_preload |> MapSet.delete(id)
+    {:noreply, assign(socket, needs_preload: needs_preload)}
+  end
 
-    firstEntry = socket.assigns.nextFirstEntry
-    secondEntry = socket.assigns.nextSecondEntry
-    [nextFirstEntry, nextSecondEntry] = get_random_pair()
+  def handle_event("vote", %{"winner_id" => winner_id, "loser_id" => loser_id}, socket) do
+    Task.start(fn -> Pokemon.record_vote(winner_id, loser_id) end)
+
+    [firstEntry, secondEntry] = get_random_pair(socket.assigns.all_pokeids)
 
     {:noreply,
-      socket
-      |> assign(:firstEntry, firstEntry)
-      |> assign(:secondEntry, secondEntry)
-      |> assign(:nextFirstEntry, nextFirstEntry)
-      |> assign(:nextSecondEntry, nextSecondEntry)}
+     socket
+     |> assign(:firstEntry, firstEntry)
+     |> assign(:secondEntry, secondEntry)}
   end
 
   # tragic: https://kobrakai.de/kolumne/liveview-double-mount
   def mount(_params, _session, socket) do
+    all_pokeids = get_all_ids()
+
     case connected?(socket) do
       true ->
-        [firstEntry, secondEntry] = get_random_pair()
-        [nextFirstEntry, nextSecondEntry] = get_random_pair()
+        [firstEntry, secondEntry] = get_random_pair(all_pokeids)
 
         {:ok,
          socket
          |> assign(:firstEntry, firstEntry)
          |> assign(:secondEntry, secondEntry)
-         |> assign(:nextFirstEntry, nextFirstEntry)
-         |> assign(:nextSecondEntry, nextSecondEntry)}
+         |> assign(:all_pokeids, all_pokeids)
+         |> assign(:needs_preload, all_pokeids)}
 
       false ->
-        {:ok, assign(socket, page: "loading")}
+        {:ok, assign(socket, page: "loading", all_pokeids: all_pokeids, needs_preload: [])}
     end
   end
 
-  defp record_vote(socket, winner_id, loser_id) do
-    firstEntry = socket.assigns.firstEntry
-    secondEntry = socket.assigns.secondEntry
 
-    winner =
-      case firstEntry.id == winner_id do
-        true -> secondEntry
-        false -> firstEntry
-      end
+  defp get_random_pair(all_pokeids) do
+    first = Enum.random(all_pokeids)
+    second = Enum.random(all_pokeids)
 
-    loser =
-      case firstEntry.id == loser_id do
-        true -> secondEntry
-        false -> firstEntry
-      end
-
-    IO.puts(winner.name)
-
-    Repo.transaction(fn ->
-      case winner |> Ecto.Changeset.change(%{up_votes: winner.up_votes + 1}) |> Repo.update() do
-        {:ok, _winner} ->
-          case loser
-               |> Ecto.Changeset.change(%{down_votes: loser.down_votes + 1})
-               |> Repo.update() do
-            {:ok, _loser} -> :ok
-            {:error, _} -> Repo.rollback(:error)
-          end
-
-        {:error, _} ->
-          Repo.rollback(:error)
-      end
-    end)
-  end
-
-  defp get_random_pair do
     query =
       from(e in Pokemon,
-        order_by: fragment("RANDOM()"),
+        where: e.dex_id in ^[first, second],
         limit: 2
       )
 
     Repo.all(query)
+  end
+
+  defp get_all_ids do
+    from(e in Pokemon, select: e.dex_id)
+    |> Repo.all()
+    |> MapSet.new()
   end
 end

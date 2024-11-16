@@ -1,6 +1,5 @@
 defmodule RoundestPhoenixWeb.PokeLive do
-  use Phoenix.LiveView,
-    layout: {RoundestPhoenixWeb.Layouts, :app}
+  use RoundestPhoenixWeb, :live_view
 
   import Ecto.Query
   alias RoundestPhoenix.Repo
@@ -38,7 +37,7 @@ defmodule RoundestPhoenixWeb.PokeLive do
       <div class="md:grid grid-cols-2 gap-8">
         <div class="flex flex-col gap-4">
           <img
-            src={"/pokemon/image/#{@firstEntry.dex_id}"}
+            src={"/images/#{@firstEntry.dex_id}.png"}
             alt={"#{@firstEntry.name}"}
             class="w-48 h-48"
             style="image-rendering: pixelated;"
@@ -58,7 +57,7 @@ defmodule RoundestPhoenixWeb.PokeLive do
 
         <div class="flex flex-col gap-4">
           <img
-            src={"/pokemon/image/#{@secondEntry.dex_id}"}
+            src={"/images/#{@secondEntry.dex_id}.png"}
             alt={"#{@secondEntry.name}"}
             class="w-48 h-48"
             style="image-rendering: pixelated;"
@@ -81,7 +80,13 @@ defmodule RoundestPhoenixWeb.PokeLive do
   end
 
   def handle_event("vote", %{"winner_id" => winner_id}, socket) do
-    Task.start(fn -> record_vote(socket, winner_id) |> IO.inspect() end)
+    [winner, loser] = cond do
+      winner_id == to_string(socket.assigns.firstEntry.id) -> [socket.assigns.firstEntry, socket.assigns.secondEntry]
+      winner_id == to_string(socket.assigns.secondEntry.id) -> [socket.assigns.secondEntry, socket.assigns.firstEntry]
+      true -> raise "Invalid winner id"
+    end
+
+    Task.start(fn -> Pokemon.record_vote(winner.id, loser.id) end)
 
     [nextFirstEntry, nextSecondEntry] = get_random_pair()
 
@@ -107,33 +112,6 @@ defmodule RoundestPhoenixWeb.PokeLive do
     end
   end
 
-  defp record_vote(socket, winner_id) do
-    firstEntry = socket.assigns.firstEntry
-    secondEntry = socket.assigns.secondEntry
-
-    [winner, loser] =
-      case firstEntry.id == winner_id do
-        true -> [firstEntry, secondEntry]
-        false -> [secondEntry, firstEntry]
-      end
-
-    IO.puts(winner.name)
-
-    Repo.transaction(fn ->
-      case winner |> Ecto.Changeset.change(%{up_votes: winner.up_votes + 1}) |> Repo.update() do
-        {:ok, _winner} ->
-          case loser
-               |> Ecto.Changeset.change(%{down_votes: loser.down_votes + 1})
-               |> Repo.update() do
-            {:ok, _loser} -> :ok
-            {:error, _} -> Repo.rollback(:error)
-          end
-
-        {:error, _} ->
-          Repo.rollback(:error)
-      end
-    end)
-  end
 
   defp get_random_pair do
     query =

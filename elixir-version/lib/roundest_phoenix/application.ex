@@ -10,16 +10,13 @@ defmodule RoundestPhoenix.Application do
     children = [
       RoundestPhoenixWeb.Telemetry,
       RoundestPhoenix.Repo,
-      {DNSCluster, query: Application.get_env(:roundest_phoenix, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: RoundestPhoenix.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: RoundestPhoenix.Finch},
       # Start a worker by calling: RoundestPhoenix.Worker.start_link(arg)
       # {RoundestPhoenix.Worker, arg},
       # Start to serve requests, typically the last entry
-      RoundestPhoenixWeb.Endpoint,
-      # cache
-      {Cachex, name: :pokemon_cache}
+      RoundestPhoenixWeb.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
