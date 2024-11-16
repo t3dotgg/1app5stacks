@@ -6,132 +6,87 @@ defmodule RoundestPhoenixWeb.PokeLive do
   alias RoundestPhoenix.Repo
   alias RoundestPhoenix.Pokemon
 
-  def render(%{page: "loading"} = assigns) do
-    ~H"""
-    <div class="w-full grow flex flex-col items-center justify-center gap-8">
-      <div class="md:grid grid-cols-2 gap-8">
-        <div class="flex flex-col items-center gap-4">
-          <div class="w-48 h-48 bg-gray-800/10 rounded-lg animate-pulse" />
-          <div class="text-center space-y-2 flex flex-col items-center justify-center">
-            <div class="h-6 w-16 bg-gray-800/10 rounded animate-pulse" />
-            <div class="h-8 w-32 bg-gray-800/10 rounded animate-pulse" />
-            <div class="h-12 w-24 bg-gray-800/10 rounded animate-pulse" />
-          </div>
-        </div>
-
-        <div class="flex flex-col items-center gap-4">
-          <div class="w-48 h-48 bg-gray-800/10 rounded-lg animate-pulse" />
-          <div class="text-center space-y-2 flex flex-col items-center justify-center">
-            <div class="h-6 w-16 bg-gray-800/10 rounded animate-pulse" />
-            <div class="h-8 w-32 bg-gray-800/10 rounded animate-pulse" />
-            <div class="h-12 w-24 bg-gray-800/10 rounded animate-pulse" />
-          </div>
-        </div>
-      </div>
-    </div>
-    """
-  end
-
   def render(assigns) do
     ~H"""
     <div class="w-full grow flex flex-col items-center justify-center gap-8">
       <div class="md:grid grid-cols-2 gap-8">
-        <div class="flex flex-col gap-4">
-          <img
-            src={"/pokemon/image/#{@firstEntry.dex_id}"}
-            alt={"#{@firstEntry.name}"}
-            class="w-48 h-48"
-            style="image-rendering: pixelated;"
-          />
-          <div class="text-center">
-            <span class="text-gray-500 text-lg">#<%= @firstEntry.dex_id %></span>
-            <h2 class="text-2xl font-bold capitalize"><%= @firstEntry.name %></h2>
-          </div>
-          <button
-            class="hover:bg-gray-700 bg-blue-600 text-white px-4 py-2 rounded-md"
-            phx-click="vote"
-            phx-value-winner_id={@firstEntry.id}
-          >
-            Vote
-          </button>
-        </div>
-
-        <div class="flex flex-col gap-4">
-          <img
-            src={"/pokemon/image/#{@secondEntry.dex_id}"}
-            alt={"#{@secondEntry.name}"}
-            class="w-48 h-48"
-            style="image-rendering: pixelated;"
-          />
-          <div class="text-center">
-            <span class="text-gray-500 text-lg">#<%= @secondEntry.dex_id %></span>
-            <h2 class="text-2xl font-bold capitalize"><%= @secondEntry.name %></h2>
-          </div>
-          <button
-            class="hover:bg-gray-700 bg-blue-600 text-white px-4 py-2 rounded-md"
-            phx-click="vote"
-            phx-value-winner_id={@secondEntry.id}
-          >
-            Vote
-          </button>
-        </div>
+        <.async_result :let={[firstEntry, secondEntry]} assign={@entries}>
+          <:loading>
+            <.pokemon_throbber />
+            <.pokemon_throbber />
+          </:loading>
+          <:failed :let={_failure}>Error</:failed>
+          <.pokemon pokemon={firstEntry} loser_id={secondEntry.id} />
+          <.pokemon pokemon={secondEntry} loser_id={firstEntry.id} />
+        </.async_result>
       </div>
     </div>
     """
   end
 
-  def handle_event("vote", %{"winner_id" => winner_id}, socket) do
-    Task.start(fn -> record_vote(socket, winner_id) |> IO.inspect() end)
-
-    [nextFirstEntry, nextSecondEntry] = get_random_pair()
-
-    {:noreply,
-     socket
-     |> assign(:firstEntry, nextFirstEntry)
-     |> assign(:secondEntry, nextSecondEntry)}
+  defp pokemon_throbber(assigns) do
+    ~H"""
+    <div class="flex flex-col items-center gap-4">
+      <div class="w-48 h-48 bg-gray-800/10 rounded-lg animate-pulse" />
+      <div class="text-center space-y-2 flex flex-col items-center justify-center">
+        <div class="h-6 w-16 bg-gray-800/10 rounded animate-pulse" />
+        <div class="h-8 w-32 bg-gray-800/10 rounded animate-pulse" />
+        <div class="h-12 w-24 bg-gray-800/10 rounded animate-pulse" />
+      </div>
+    </div>
+    """
   end
 
-  # tragic: https://kobrakai.de/kolumne/liveview-double-mount
+  attr :pokemon, Pokemon, required: true
+  attr :loser_id, :string, required: true
+
+  defp pokemon(assigns) do
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <img
+        src={"/pokemon/image/#{@pokemon.dex_id}"}
+        alt={@pokemon.name}
+        class="w-48 h-48"
+        style="image-rendering: pixelated;"
+      />
+      <div class="text-center">
+        <span class="text-gray-500 text-lg">#<%= @pokemon.dex_id %></span>
+        <h2 class="text-2xl font-bold capitalize"><%= @pokemon.name %></h2>
+      </div>
+      <button
+        class="hover:bg-gray-700 bg-blue-600 text-white px-4 py-2 rounded-md"
+        phx-click="vote"
+        phx-value-winner_id={@pokemon.id}
+        phx-value-loser_id={@loser_id}
+      >
+        Vote
+      </button>
+    </div>
+    """
+  end
+
+  def handle_event("vote", %{"winner_id" => winner_id, "loser_id" => loser_id}, socket) do
+    Task.start(fn -> record_vote(winner_id, loser_id) end)
+    {:noreply, assign_random_pair(socket)}
+  end
+
   def mount(_params, _session, socket) do
-    case connected?(socket) do
-      true ->
-        [firstEntry, secondEntry] = get_random_pair()
-
-        {:ok,
-         socket
-         |> assign(:firstEntry, firstEntry)
-         |> assign(:secondEntry, secondEntry)}
-
-      false ->
-        {:ok, assign(socket, page: "loading")}
-    end
+    {:ok, assign_random_pair(socket)}
   end
 
-  defp record_vote(socket, winner_id) do
-    firstEntry = socket.assigns.firstEntry
-    secondEntry = socket.assigns.secondEntry
-
-    [winner, loser] =
-      case firstEntry.id == winner_id do
-        true -> [firstEntry, secondEntry]
-        false -> [secondEntry, firstEntry]
-      end
-
-    IO.puts(winner.name)
+  defp record_vote(winner_id, loser_id) do
+    winner_query = from p in Pokemon, where: p.id == ^winner_id, update: [inc: [up_votes: 1]]
+    loser_query = from p in Pokemon, where: p.id == ^loser_id, update: [inc: [down_votes: 1]]
 
     Repo.transaction(fn ->
-      case winner |> Ecto.Changeset.change(%{up_votes: winner.up_votes + 1}) |> Repo.update() do
-        {:ok, _winner} ->
-          case loser
-               |> Ecto.Changeset.change(%{down_votes: loser.down_votes + 1})
-               |> Repo.update() do
-            {:ok, _loser} -> :ok
-            {:error, _} -> Repo.rollback(:error)
-          end
+      {1, _} = Repo.update_all(winner_query, [])
+      {1, _} = Repo.update_all(loser_query, [])
+    end)
+  end
 
-        {:error, _} ->
-          Repo.rollback(:error)
-      end
+  defp assign_random_pair(socket) do
+    assign_async(socket, [:entries], fn ->
+      {:ok, %{entries: get_random_pair()}}
     end)
   end
 
