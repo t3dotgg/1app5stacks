@@ -53,6 +53,9 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
     """
   end
 
+  attr :pokemon, Pokemon, required: true
+  attr :loser_id, :string, required: true
+
   defp pokemon(assigns) do
     ~H"""
     <div class="flex flex-col gap-4">
