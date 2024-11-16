@@ -6,10 +6,6 @@ defmodule RoundestPhoenix.GlobalSetup do
     # Start your application (this will start Ecto and other dependencies)
     Application.ensure_all_started(:roundest_phoenix)
 
-    # Clear existing Pokemon
-    IO.puts("Clearing existing Pokemon...")
-    Repo.delete_all(Pokemon)
-
     # Fetch and insert new Pokemon
     IO.puts("Fetching Pokemon data...")
 
@@ -25,7 +21,7 @@ defmodule RoundestPhoenix.GlobalSetup do
             up_votes: 0,
             down_votes: 0
           })
-          |> Repo.insert!()
+          |> Repo.insert!(on_conflict: :nothing)
 
           IO.puts("Inserted Pokemon: #{pokemon_data.name}")
         end)
