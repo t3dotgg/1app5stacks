@@ -23,7 +23,7 @@ class Results extends Component
         $this->pokemons = Pokemon::results(limit: false);
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.results');
     }

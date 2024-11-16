@@ -8,12 +8,12 @@ use Livewire\Component;
 class Vote extends Component
 {
     public array $pokemons;
-    public array $nextTen;
+    public array $nextTwo;
 
     public function mount(): void
     {
         $this->pokemons = Pokemon::fetch(2);
-        $this->nextTen = Pokemon::fetch(10);
+        $this->nextTwo = Pokemon::fetch(2);
     }
 
     public function vote(int $index): \Illuminate\Http\RedirectResponse
@@ -22,11 +22,8 @@ class Vote extends Component
             'winner_id' => $this->pokemons[$index]->id,
             'loser_id' => $this->pokemons[1 - $index % 2]->id]);
 
-        $this->pokemons = \Arr::take($this->nextTen, 2);
-        $this->nextTen = [
-            ...\Arr::except($this->nextTen, [0, 1]),
-            ...Pokemon::fetch(2)
-        ];
+        $this->pokemons = $this->nextTwo;
+        $this->nextTwo = Pokemon::fetch(2);
 
         return redirect()->back();
     }

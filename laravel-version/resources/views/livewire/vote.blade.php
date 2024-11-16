@@ -1,6 +1,6 @@
 <div class="container mx-auto px-4">
     <div class="flex justify-center gap-16 items-center min-h-[80vh]">
-        @foreach ($this->pokemons as $index => $pokemon)
+        @foreach ($pokemons as $index => $pokemon)
             <div class="flex flex-col items-center gap-4">
                 <img wire:replace.self src="{{ $pokemon->url }}" class="w-64 h-64" style="image-rendering: pixelated"/>
                 <div class=" text-center">
@@ -13,8 +13,8 @@
                 </div>
             </div>
         @endforeach
-        @foreach ($this->nextTen as $index => $pokemon)
-            <link rel="preload" fetchpriority="high" as="image" href="{{$this->nextTen[$index]->url}}">
+        @foreach ($nextTwo as $index => $pokemon)
+            <link rel="preload" fetchpriority="high" as="image" href="{{$this->nextTwo[$index]->url}}">
         @endforeach
     </div>
 </div>

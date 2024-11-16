@@ -24,9 +24,7 @@ class DatabaseSeeder extends Seeder
                 }
             }
         ';
-        $response = \Http::post('https://beta.pokeapi.co/graphql/v1beta', [
-            'query' => $query
-        ]);
+        $response = \Http::post('https://beta.pokeapi.co/graphql/v1beta', ['query' => $query]);
 
         $pokemon = $response->json('data.pokemon_v2_pokemon');
 
