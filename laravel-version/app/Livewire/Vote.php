@@ -3,17 +3,20 @@
 namespace App\Livewire;
 
 use App\Models\Pokemon;
+use Livewire\Attributes\Session;
 use Livewire\Component;
 
 class Vote extends Component
 {
+    #[Session]
     public array $pokemons;
+    #[Session]
     public array $nextTwo;
 
     public function mount(): void
     {
-        $this->pokemons = Pokemon::fetch(2);
-        $this->nextTwo = Pokemon::fetch(2);
+        $this->pokemons ??= Pokemon::fetch(2);
+        $this->nextTwo ??= Pokemon::fetch(2);
     }
 
     public function vote(int $index): \Illuminate\Http\RedirectResponse
