@@ -1,34 +1,10 @@
 import { useQuery, useMutation } from "@apollo/client";
-
-import { gql } from "../../__generated__/";
 import { PokemonSprite } from "../utils/sprite";
-
-const PokeQuery = gql(/* GraphQL */ `
-  query RandomPair {
-    randomPair {
-      pokemonOne {
-        id
-        name
-      }
-      pokemonTwo {
-        id
-        name
-      }
-    }
-  }
-`);
-
-const Vote = gql(/* GraphQL */ `
-  mutation Vote($upvoteId: Int!, $downvoteId: Int!) {
-    vote(upvoteId: $upvoteId, downvoteId: $downvoteId) {
-      success
-    }
-  }
-`);
+import { RandomPairDocument, VoteDocument } from "../../__generated__/graphql";
 
 function VotePageContents() {
-  const { data, loading, refetch } = useQuery(PokeQuery);
-  const [voteMutation] = useMutation(Vote);
+  const { data, loading, refetch } = useQuery(RandomPairDocument);
+  const [voteMutation] = useMutation(VoteDocument);
 
   if (loading || !data || !data.randomPair) return <VoteFallback />;
 

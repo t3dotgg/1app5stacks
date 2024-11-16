@@ -1,22 +1,9 @@
 import { useQuery } from "@apollo/client";
-
-import { gql } from "../../__generated__/";
 import { PokemonSprite } from "../utils/sprite";
-
-const PokeQuery = gql(/* GraphQL */ `
-  query ResultsQuery {
-    results {
-      dexId
-      downVotes
-      upVotes
-      name
-      winPercentage
-    }
-  }
-`);
+import { ResultsQueryDocument } from "../../__generated__/graphql";
 
 function ResultsPageContents() {
-  const { data, loading } = useQuery(PokeQuery);
+  const { data, loading } = useQuery(ResultsQueryDocument);
 
   if (loading || !data || !data.results) return <ResultsPageFallback />;
 

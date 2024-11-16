@@ -1,0 +1,28 @@
+query RandomPair {
+  randomPair {
+    pokemonOne {
+      id
+      name
+    }
+    pokemonTwo {
+      id
+      name
+    }
+  }
+}
+
+mutation Vote($upvoteId: Int!, $downvoteId: Int!) {
+  vote(upvoteId: $upvoteId, downvoteId: $downvoteId) {
+    success
+  }
+}
+
+query ResultsQuery {
+  results {
+    dexId
+    downVotes
+    upVotes
+    name
+    winPercentage
+  }
+}
