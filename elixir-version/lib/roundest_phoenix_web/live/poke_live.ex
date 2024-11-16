@@ -1,6 +1,5 @@
 defmodule RoundestPhoenixWeb.PokeLive do
-  use Phoenix.LiveView,
-    layout: {RoundestPhoenixWeb.Layouts, :app}
+  use RoundestPhoenixWeb, :live_view
 
   import Ecto.Query
   alias RoundestPhoenix.Repo
@@ -38,7 +37,7 @@ defmodule RoundestPhoenixWeb.PokeLive do
       <div class="md:grid grid-cols-2 gap-8">
         <div class="flex flex-col gap-4">
           <img
-            src={"/pokemon/image/#{@firstEntry.dex_id}"}
+            src={"/images/#{@firstEntry.dex_id}.png"}
             alt={"#{@firstEntry.name}"}
             class="w-48 h-48"
             style="image-rendering: pixelated;"
@@ -58,7 +57,7 @@ defmodule RoundestPhoenixWeb.PokeLive do
 
         <div class="flex flex-col gap-4">
           <img
-            src={"/pokemon/image/#{@secondEntry.dex_id}"}
+            src={"/images/#{@secondEntry.dex_id}.png"}
             alt={"#{@secondEntry.name}"}
             class="w-48 h-48"
             style="image-rendering: pixelated;"
