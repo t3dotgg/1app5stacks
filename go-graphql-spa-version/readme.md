@@ -18,6 +18,6 @@ pnpm run dev
 
 ### Go GraphQL API
 
-1. Ask a backend dev to do it for you
+0. Ask a backend dev to do it for you
 
-TODO: Actually write this section
+[See server README](../go-graphql-spa-version/README.md)
