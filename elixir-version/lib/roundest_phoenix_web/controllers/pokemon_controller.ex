@@ -4,7 +4,6 @@ defmodule RoundestPhoenixWeb.PokemonController do
   alias RoundestPhoenix.Repo
   alias RoundestPhoenix.Pokemon
 
-
   @spec show_results(Plug.Conn.t(), any()) :: Plug.Conn.t()
   def show_results(conn, _params) do
     pokemon = get_pokemon_by_win_rate()
@@ -48,6 +47,4 @@ defmodule RoundestPhoenixWeb.PokemonController do
   end
 
   defp calculate_percentage(_, _), do: 0.0
-
-
 end

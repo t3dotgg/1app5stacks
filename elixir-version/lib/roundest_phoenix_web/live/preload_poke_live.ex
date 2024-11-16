@@ -34,7 +34,6 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
   def render(assigns) do
     ~H"""
     <div class="w-full grow flex flex-col items-center justify-center gap-8">
-
       <div class="md:grid grid-cols-2 gap-8">
         <div class="flex flex-col gap-4">
           <img
@@ -78,13 +77,20 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
           </button>
         </div>
       </div>
-       <%!-- Hidden images to preload --%>
-      <div class="hidden" :for={pokeId <- @needs_preload |> Enum.take(10) }>
-        <link id={"preload-#{pokeId}"} phx-hook="RemoveAfterLoad" rel="preload" href={~p"/images/#{to_string(pokeId) <> ".png"}"} as="image" />
+      <%!-- Hidden images to preload --%>
+      <div :for={pokeId <- @needs_preload |> Enum.take(10)} class="hidden">
+        <link
+          id={"preload-#{pokeId}"}
+          phx-hook="RemoveAfterLoad"
+          rel="preload"
+          href={~p"/images/#{to_string(pokeId) <> ".png"}"}
+          as="image"
+        />
       </div>
     </div>
     """
   end
+
   def handle_event("preload-done", %{"id" => id}, socket) do
     needs_preload = socket.assigns.needs_preload |> MapSet.delete(id)
     {:noreply, assign(socket, needs_preload: needs_preload)}
@@ -96,10 +102,9 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
     [firstEntry, secondEntry] = get_random_pair(socket.assigns.all_pokeids)
 
     {:noreply,
-      socket
-      |> assign(:firstEntry, firstEntry)
-      |> assign(:secondEntry, secondEntry)
-  }
+     socket
+     |> assign(:firstEntry, firstEntry)
+     |> assign(:secondEntry, secondEntry)}
   end
 
   # tragic: https://kobrakai.de/kolumne/liveview-double-mount
@@ -116,7 +121,6 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
          |> assign(:secondEntry, secondEntry)
          |> assign(:all_pokeids, all_pokeids)
          |> assign(:needs_preload, all_pokeids)}
-
 
       false ->
         {:ok, assign(socket, page: "loading", all_pokeids: all_pokeids, needs_preload: [])}
