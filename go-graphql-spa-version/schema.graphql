@@ -1,0 +1,44 @@
+type Pokemon {
+  id: Int
+  name: String
+  dexId: Int
+  upVotes: Int
+  downVotes: Int
+}
+
+type RandomPair {
+  pokemonOne: Pokemon
+  pokemonTwo: Pokemon
+}
+
+type Result {
+  # Same fields as `Pokemon`
+  id: Int
+  name: String
+  dexId: Int
+  upVotes: Int
+  downVotes: Int
+  totalVotes: Int
+
+  winPercentage: Float
+  lossPercentage: Float
+}
+
+schema {
+  query: RootQuery
+}
+
+type RootQuery {
+  pokemon: [Pokemon]
+  randomPair: RandomPair
+  results: [Result]
+}
+
+# Mutation-only fields
+type VoteResult {
+  success: Boolean
+}
+
+type Mutation {
+  vote(downvoteId: Int!, upvoteId: Int!): VoteResult
+}
