@@ -67,7 +67,6 @@ defmodule RoundestPhoenixWeb.PokeLive do
     {:noreply, assign_random_pair(socket)}
   end
 
-  # tragic: https://kobrakai.de/kolumne/liveview-double-mount
   def mount(_params, _session, socket) do
     {:ok, assign_random_pair(socket)}
   end
