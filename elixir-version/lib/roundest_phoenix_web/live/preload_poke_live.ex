@@ -97,7 +97,7 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
   end
 
   def handle_event("vote", %{"winner_id" => winner_id, "loser_id" => loser_id}, socket) do
-    Task.start(fn -> record_vote(socket, winner_id, loser_id) |> IO.inspect() end)
+    Task.start(fn -> Pokemon.record_vote(winner_id, loser_id) end)
 
     [firstEntry, secondEntry] = get_random_pair(socket.assigns.all_pokeids)
 
@@ -127,39 +127,6 @@ defmodule RoundestPhoenixWeb.PRELOADPokeLive do
     end
   end
 
-  defp record_vote(socket, winner_id, loser_id) do
-    firstEntry = socket.assigns.firstEntry
-    secondEntry = socket.assigns.secondEntry
-
-    winner =
-      case firstEntry.id == winner_id do
-        true -> secondEntry
-        false -> firstEntry
-      end
-
-    loser =
-      case firstEntry.id == loser_id do
-        true -> secondEntry
-        false -> firstEntry
-      end
-
-    IO.puts(winner.name)
-
-    Repo.transaction(fn ->
-      case winner |> Ecto.Changeset.change(%{up_votes: winner.up_votes + 1}) |> Repo.update() do
-        {:ok, _winner} ->
-          case loser
-               |> Ecto.Changeset.change(%{down_votes: loser.down_votes + 1})
-               |> Repo.update() do
-            {:ok, _loser} -> :ok
-            {:error, _} -> Repo.rollback(:error)
-          end
-
-        {:error, _} ->
-          Repo.rollback(:error)
-      end
-    end)
-  end
 
   defp get_random_pair(all_pokeids) do
     first = Enum.random(all_pokeids)
