@@ -34,7 +34,6 @@ function VotePageContents() {
 
   const { pokemonOne, pokemonTwo } = data.randomPair;
 
-  if (!pokemonOne || !pokemonTwo) throw new Error("No pokemon found");
 
   function handleVote(winnerId: number, loserId: number) {
     voteMutation({ variables: { upvoteId: winnerId, downvoteId: loserId } });
@@ -45,13 +44,13 @@ function VotePageContents() {
     <>
       {/* Pokemon One */}
       <div key={pokemonOne.id} className="flex flex-col items-center gap-4">
-        <PokemonSprite dexId={pokemonOne.id!} className="w-64 h-64" />
+        <PokemonSprite dexId={pokemonOne.id} className="w-64 h-64" />
         <div className="text-center">
-          <span className="text-gray-500 text-lg">#{pokemonOne.id}</span>
+          <span className="text-lg text-gray-500">#{pokemonOne.id}</span>
           <h2 className="text-2xl font-bold capitalize">{pokemonOne.name}</h2>
           <button
-            onClick={() => handleVote(pokemonOne.id!, pokemonTwo.id!)}
-            className="px-8 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors"
+            onClick={() => handleVote(pokemonOne.id, pokemonTwo.id)}
+            className="px-8 py-3 text-lg font-semibold text-white transition-colors bg-blue-500 rounded-lg hover:bg-blue-600"
           >
             Vote
           </button>
@@ -60,13 +59,13 @@ function VotePageContents() {
 
       {/* Pokemon Two */}
       <div key={pokemonTwo.id} className="flex flex-col items-center gap-4">
-        <PokemonSprite dexId={pokemonTwo.id!} className="w-64 h-64" />
+        <PokemonSprite dexId={pokemonTwo.id} className="w-64 h-64" />
         <div className="text-center">
-          <span className="text-gray-500 text-lg">#{pokemonTwo.id}</span>
+          <span className="text-lg text-gray-500">#{pokemonTwo.id}</span>
           <h2 className="text-2xl font-bold capitalize">{pokemonTwo.name}</h2>
           <button
-            onClick={() => handleVote(pokemonTwo.id!, pokemonOne.id!)}
-            className="px-8 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors"
+            onClick={() => handleVote(pokemonTwo.id, pokemonOne.id)}
+            className="px-8 py-3 text-lg font-semibold text-white transition-colors bg-blue-500 rounded-lg hover:bg-blue-600"
           >
             Vote
           </button>
@@ -81,11 +80,11 @@ function VoteFallback() {
     <>
       {[1, 2].map((i) => (
         <div key={i} className="flex flex-col items-center gap-4">
-          <div className="w-64 h-64 bg-gray-800/10 rounded-lg animate-pulse" />
-          <div className="text-center space-y-2 flex flex-col items-center justify-center">
-            <div className="h-6 w-16 bg-gray-800/10 rounded animate-pulse" />
-            <div className="h-8 w-32 bg-gray-800/10 rounded animate-pulse" />
-            <div className="h-12 w-24 bg-gray-800/10 rounded animate-pulse" />
+          <div className="w-64 h-64 rounded-lg bg-gray-800/10 animate-pulse" />
+          <div className="flex flex-col items-center justify-center space-y-2 text-center">
+            <div className="w-16 h-6 rounded bg-gray-800/10 animate-pulse" />
+            <div className="w-32 h-8 rounded bg-gray-800/10 animate-pulse" />
+            <div className="w-24 h-12 rounded bg-gray-800/10 animate-pulse" />
           </div>
         </div>
       ))}
