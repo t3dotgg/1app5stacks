@@ -1,6 +1,6 @@
 class Vote < ApplicationRecord
-  belongs_to :winner, class_name: 'Pokemon'
-  belongs_to :loser, class_name: 'Pokemon'
+  belongs_to :winner, class_name: 'Pokemon', counter_cache: :won_votes_count, touch: true
+  belongs_to :loser, class_name: 'Pokemon', counter_cache: :lost_votes_count, touch: true
 
   validate :winner_and_loser_are_different
 
