@@ -1,6 +1,16 @@
 class HomeController < ApplicationController
   def index
     @pokemon_pair = Pokemon.random_pair
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: { battlefield: render_to_string(
+          partial: "battlefield",
+          locals: { pokemon_pair: @pokemon_pair },
+          formats: [:html]
+        ) }
+      end
+    end
   end
 
   def vote
@@ -10,10 +20,9 @@ class HomeController < ApplicationController
     Vote.create(winner: winner, loser: loser)
 
     respond_to do |format|
-      format.turbo_stream do
-        @pokemon_pair = Pokemon.random_pair
-      end
-      format.html { redirect_to root_path }
+      @pokemon_pair = Pokemon.random_pair
+      format.turbo_stream { head :ok }
+      format.html { render partial: "battlefield", locals: { pokemon_pair: @pokemon_pair } }
     end
   end
 end
