@@ -44,36 +44,36 @@ func main() {
 	pokemonType := graphql.NewObject(graphql.ObjectConfig{
 		Name: "Pokemon",
 		Fields: graphql.Fields{
-			"id":        &graphql.Field{Type: graphql.Int},
-			"name":      &graphql.Field{Type: graphql.String},
-			"dexId":     &graphql.Field{Type: graphql.Int},
-			"upVotes":   &graphql.Field{Type: graphql.Int},
-			"downVotes": &graphql.Field{Type: graphql.Int},
+			"id":        &graphql.Field{Type: graphql.NewNonNull(graphql.Int)},
+			"name":      &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
+			"dexId":     &graphql.Field{Type: graphql.NewNonNull(graphql.Int)},
+			"upVotes":   &graphql.Field{Type: graphql.NewNonNull(graphql.Int)},
+			"downVotes": &graphql.Field{Type: graphql.NewNonNull(graphql.Int)},
 		},
 	})
 
 	resultType := graphql.NewObject(graphql.ObjectConfig{
 		Name: "Result",
 		Fields: graphql.Fields{
-			"name": &graphql.Field{Type: graphql.String},
-			"id":   &graphql.Field{Type: graphql.Int},
+			"name": &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
+			"id":   &graphql.Field{Type: graphql.NewNonNull(graphql.Int)},
 			"dexId": &graphql.Field{
-				Type: graphql.Int,
+				Type: graphql.NewNonNull(graphql.Int),
 			},
 			"upVotes": &graphql.Field{
-				Type: graphql.Int,
+				Type: graphql.NewNonNull(graphql.Int),
 			},
 			"downVotes": &graphql.Field{
-				Type: graphql.Int,
+				Type: graphql.NewNonNull(graphql.Int),
 			},
 			"totalVotes": &graphql.Field{
-				Type: graphql.Int,
+				Type: graphql.NewNonNull(graphql.Int),
 			},
 			"winPercentage": &graphql.Field{
-				Type: graphql.Float,
+				Type: graphql.NewNonNull(graphql.Float),
 			},
 			"lossPercentage": &graphql.Field{
-				Type: graphql.Float,
+				Type: graphql.NewNonNull(graphql.Float),
 			},
 		},
 	})
@@ -149,12 +149,12 @@ func main() {
 			},
 		},
 		"results": &graphql.Field{
-			Type: graphql.NewList(resultType),
+			Type: graphql.NewNonNull(graphql.NewList(graphql.NewNonNull(resultType))),
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				var pokemon []Pokemon
 				err := db.Select(&pokemon, "SELECT name, id, dex_id, up_votes, down_votes FROM pokemon WHERE id < 1025 ORDER BY up_votes DESC")
 				if err != nil {
-					return nil, err
+					return []Result{}, err
 				}
 
 				results := make([]Result, len(pokemon))
@@ -197,8 +197,8 @@ func main() {
 			Type: graphql.NewObject(graphql.ObjectConfig{
 				Name: "RandomPair",
 				Fields: graphql.Fields{
-					"pokemonOne": &graphql.Field{Type: pokemonType},
-					"pokemonTwo": &graphql.Field{Type: pokemonType},
+					"pokemonOne": &graphql.Field{Type: graphql.NewNonNull(pokemonType)},
+					"pokemonTwo": &graphql.Field{Type: graphql.NewNonNull(pokemonType)},
 				},
 			}),
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
