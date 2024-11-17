@@ -18,16 +18,11 @@ const PokeQuery = gql(/* GraphQL */ `
 function ResultsPageContents() {
   const { data, loading } = useQuery(PokeQuery);
 
-  if (loading || !data || !data.results) return <ResultsPageFallback />;
-
-  const pokemonList = data.results.map((p) => {
-    if (!p) throw new Error("Received a null pokemon, something is very wrong");
-    return p;
-  });
+  if (loading || !data) return <ResultsPageFallback />;
 
   return (
     <>
-      {pokemonList.map((pokemon, index) => (
+      {data.results.map((pokemon, index) => (
         <div
           key={pokemon.dexId}
           className="flex items-center gap-6 p-6 bg-gray-800/40 rounded-lg shadow hover:shadow-md transition-shadow"
@@ -36,7 +31,7 @@ function ResultsPageContents() {
             #{index + 1}
           </div>
 
-          <PokemonSprite dexId={pokemon.dexId!} className="w-20 h-20" />
+          <PokemonSprite dexId={pokemon.dexId} className="w-20 h-20" />
 
           <div className="flex-grow">
             <div className="text-gray-400 text-sm">#{pokemon.dexId}</div>
@@ -45,7 +40,7 @@ function ResultsPageContents() {
 
           <div className="text-right">
             <div className="text-2xl font-bold text-blue-400">
-              {pokemon.winPercentage!.toFixed(1)}%
+              {pokemon.winPercentage.toFixed(1)}%
             </div>
             <div className="text-sm text-gray-400">
               {pokemon.upVotes}W - {pokemon.downVotes}L

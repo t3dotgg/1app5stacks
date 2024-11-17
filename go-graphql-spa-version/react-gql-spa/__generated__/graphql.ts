@@ -29,36 +29,36 @@ export type MutationVoteArgs = {
 
 export type Pokemon = {
   __typename?: 'Pokemon';
-  dexId?: Maybe<Scalars['Int']['output']>;
-  downVotes?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  upVotes?: Maybe<Scalars['Int']['output']>;
+  dexId: Scalars['Int']['output'];
+  downVotes: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  upVotes: Scalars['Int']['output'];
 };
 
 export type RandomPair = {
   __typename?: 'RandomPair';
-  pokemonOne?: Maybe<Pokemon>;
-  pokemonTwo?: Maybe<Pokemon>;
+  pokemonOne: Pokemon;
+  pokemonTwo: Pokemon;
 };
 
 export type Result = {
   __typename?: 'Result';
-  dexId?: Maybe<Scalars['Int']['output']>;
-  downVotes?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  lossPercentage?: Maybe<Scalars['Float']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  totalVotes?: Maybe<Scalars['Int']['output']>;
-  upVotes?: Maybe<Scalars['Int']['output']>;
-  winPercentage?: Maybe<Scalars['Float']['output']>;
+  dexId: Scalars['Int']['output'];
+  downVotes: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  lossPercentage: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
+  totalVotes: Scalars['Int']['output'];
+  upVotes: Scalars['Int']['output'];
+  winPercentage: Scalars['Float']['output'];
 };
 
 export type RootQuery = {
   __typename?: 'RootQuery';
   pokemon?: Maybe<Array<Maybe<Pokemon>>>;
   randomPair?: Maybe<RandomPair>;
-  results?: Maybe<Array<Maybe<Result>>>;
+  results: Array<Result>;
 };
 
 export type VoteResult = {
@@ -69,7 +69,7 @@ export type VoteResult = {
 export type RandomPairQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RandomPairQuery = { __typename?: 'RootQuery', randomPair?: { __typename?: 'RandomPair', pokemonOne?: { __typename?: 'Pokemon', id?: number | null, name?: string | null } | null, pokemonTwo?: { __typename?: 'Pokemon', id?: number | null, name?: string | null } | null } | null };
+export type RandomPairQuery = { __typename?: 'RootQuery', randomPair?: { __typename?: 'RandomPair', pokemonOne: { __typename?: 'Pokemon', id: number, name: string }, pokemonTwo: { __typename?: 'Pokemon', id: number, name: string } } | null };
 
 export type VoteMutationVariables = Exact<{
   upvoteId: Scalars['Int']['input'];
@@ -82,7 +82,7 @@ export type VoteMutation = { __typename?: 'Mutation', vote?: { __typename?: 'Vot
 export type ResultsQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ResultsQueryQuery = { __typename?: 'RootQuery', results?: Array<{ __typename?: 'Result', dexId?: number | null, downVotes?: number | null, upVotes?: number | null, name?: string | null, winPercentage?: number | null } | null> | null };
+export type ResultsQueryQuery = { __typename?: 'RootQuery', results: Array<{ __typename?: 'Result', dexId: number, downVotes: number, upVotes: number, name: string, winPercentage: number }> };
 
 
 export const RandomPairDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RandomPair"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"randomPair"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pokemonOne"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pokemonTwo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<RandomPairQuery, RandomPairQueryVariables>;

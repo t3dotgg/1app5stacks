@@ -34,7 +34,6 @@ function VotePageContents() {
 
   const { pokemonOne, pokemonTwo } = data.randomPair;
 
-  if (!pokemonOne || !pokemonTwo) throw new Error("No pokemon found");
 
   function handleVote(winnerId: number, loserId: number) {
     voteMutation({ variables: { upvoteId: winnerId, downvoteId: loserId } });
@@ -45,12 +44,12 @@ function VotePageContents() {
     <>
       {/* Pokemon One */}
       <div key={pokemonOne.id} className="flex flex-col items-center gap-4">
-        <PokemonSprite dexId={pokemonOne.id!} className="w-64 h-64" />
+        <PokemonSprite dexId={pokemonOne.id} className="w-64 h-64" />
         <div className="text-center">
           <span className="text-gray-500 text-lg">#{pokemonOne.id}</span>
           <h2 className="text-2xl font-bold capitalize">{pokemonOne.name}</h2>
           <button
-            onClick={() => handleVote(pokemonOne.id!, pokemonTwo.id!)}
+            onClick={() => handleVote(pokemonOne.id, pokemonTwo.id)}
             className="px-8 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors"
           >
             Vote
@@ -60,12 +59,12 @@ function VotePageContents() {
 
       {/* Pokemon Two */}
       <div key={pokemonTwo.id} className="flex flex-col items-center gap-4">
-        <PokemonSprite dexId={pokemonTwo.id!} className="w-64 h-64" />
+        <PokemonSprite dexId={pokemonTwo.id} className="w-64 h-64" />
         <div className="text-center">
           <span className="text-gray-500 text-lg">#{pokemonTwo.id}</span>
           <h2 className="text-2xl font-bold capitalize">{pokemonTwo.name}</h2>
           <button
-            onClick={() => handleVote(pokemonTwo.id!, pokemonOne.id!)}
+            onClick={() => handleVote(pokemonTwo.id, pokemonOne.id)}
             className="px-8 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors"
           >
             Vote
