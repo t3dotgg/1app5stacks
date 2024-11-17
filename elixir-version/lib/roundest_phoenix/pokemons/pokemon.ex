@@ -1,4 +1,4 @@
-defmodule RoundestPhoenix.Pokemon do
+defmodule RoundestPhoenix.Pokemons.Pokemon do
   use Ecto.Schema
   import Ecto.Changeset
 

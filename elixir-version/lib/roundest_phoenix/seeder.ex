@@ -1,5 +1,5 @@
 alias RoundestPhoenix.Repo
-alias RoundestPhoenix.Pokemon
+alias RoundestPhoenix.Pokemons.Pokemon
 
 defmodule RoundestPhoenix.GlobalSetup do
   def run_seed do
