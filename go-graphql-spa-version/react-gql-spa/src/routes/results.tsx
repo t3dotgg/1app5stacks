@@ -78,7 +78,7 @@ function ResultsPageFallback() {
 
 function ResultsPage() {
   return (
-    <div className="container px-4 py-8 mx-auto text-white">
+    <div className="container mx-auto px-4 py-8 text-white">
       <div className="grid gap-4">
         <ResultsPageContents />
       </div>

@@ -80,11 +80,11 @@ function VoteFallback() {
     <>
       {[1, 2].map((i) => (
         <div key={i} className="flex flex-col items-center gap-4">
-          <div className="w-64 h-64 rounded-lg bg-gray-800/10 animate-pulse" />
-          <div className="flex flex-col items-center justify-center space-y-2 text-center">
-            <div className="w-16 h-6 rounded bg-gray-800/10 animate-pulse" />
-            <div className="w-32 h-8 rounded bg-gray-800/10 animate-pulse" />
-            <div className="w-24 h-12 rounded bg-gray-800/10 animate-pulse" />
+          <div className="w-64 h-64 bg-gray-800/10 rounded-lg animate-pulse" />
+          <div className="text-center space-y-2 flex flex-col items-center justify-center">
+            <div className="h-6 w-16 bg-gray-800/10 rounded animate-pulse" />
+            <div className="h-8 w-32 bg-gray-800/10 rounded animate-pulse" />
+            <div className="h-12 w-24 bg-gray-800/10 rounded animate-pulse" />
           </div>
         </div>
       ))}
