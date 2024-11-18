@@ -4,7 +4,7 @@ defmodule RoundestPhoenixWeb.PokeLive do
 
   import Ecto.Query
   alias RoundestPhoenix.Repo
-  alias RoundestPhoenix.Pokemon
+  alias RoundestPhoenix.Pokemons.Pokemon
 
   def render(%{page: "loading"} = assigns) do
     ~H"""

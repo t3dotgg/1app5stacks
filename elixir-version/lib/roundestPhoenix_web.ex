@@ -54,6 +54,8 @@ defmodule RoundestPhoenixWeb do
       use Phoenix.LiveView,
         layout: {RoundestPhoenixWeb.Layouts, :app}
 
+      import RoundestPhoenixWeb.CoreComponents
+
       unquote(html_helpers())
     end
   end
