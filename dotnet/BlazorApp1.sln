@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1", "BlazorApp1\BlazorApp1.csproj", "{8834E01C-F258-4A36-9511-A000FCDB183B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{EC696EE7-E3D1-439B-8F70-DB8BA9B9DDE7}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8834E01C-F258-4A36-9511-A000FCDB183B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8834E01C-F258-4A36-9511-A000FCDB183B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8834E01C-F258-4A36-9511-A000FCDB183B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8834E01C-F258-4A36-9511-A000FCDB183B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

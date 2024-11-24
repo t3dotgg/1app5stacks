@@ -1,0 +1,76 @@
+﻿@page "/"
+@implements IAsyncDisposable
+
+@rendermode InteractiveServer
+
+
+@inject IDbContextFactory<PokemonDbContext> DbContextFactory
+
+<PageTitle>Pokemon fights</PageTitle>
+<h1>Home</h1>
+
+<div style="display: flex; flex-direction: row; align-items: center;">
+    @if (Pokemon1 is null || Pokemon2 is null)
+    {
+       <p>Loading...</p>
+    }
+    else
+    {
+        <div >
+            <PokemonDisplay Pokemon="@Pokemon1"/>
+            <button @onclick="Upvote1">Upvote</button>
+        </div>
+        <div>
+            <PokemonDisplay Pokemon="@Pokemon2"/>
+            <button @onclick="Upvote2">Upvote</button>
+        </div>
+    }
+</div>
+
+@code {
+    private Pokemon? Pokemon1 { get; set; } 
+    private Pokemon? Pokemon2 { get; set; } 
+
+    PokemonDbContext DbContext { get; set; } = null!;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        DbContext = await DbContextFactory.CreateDbContextAsync();
+        await LoadRandomPokemons();
+    }
+
+    private async Task LoadRandomPokemons()
+    {
+        Pokemon1 = await DbContext.GetRandomPokemon();
+        Pokemon2 = await DbContext.GetRandomPokemon();
+
+        while (Pokemon1 != null && Pokemon1 == Pokemon2)
+        {
+            Pokemon2 = await DbContext.GetRandomPokemon();
+        }
+        
+        StateHasChanged();
+    }
+
+    private async Task Upvote2()
+    {
+        await DbContext.UpvotePokemon(Pokemon2!.Id);
+        await DbContext.DownvotePokemon(Pokemon1!.Id);
+
+        await LoadRandomPokemons();
+    }
+
+    private async Task Upvote1()
+    {
+        await DbContext.UpvotePokemon(Pokemon1!.Id);
+        await DbContext.DownvotePokemon(Pokemon2!.Id);
+
+        await LoadRandomPokemons();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await DbContext.DisposeAsync();
+    }
+}

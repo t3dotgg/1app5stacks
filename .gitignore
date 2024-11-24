@@ -38,3 +38,5 @@
 !/app/assets/builds/.keep
 
 .DS_Store
+/dotnet/.vs/
+*.csproj.user

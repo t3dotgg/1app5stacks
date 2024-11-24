@@ -1,0 +1,66 @@
+﻿@page "/results"
+
+@implements IAsyncDisposable
+@rendermode InteractiveServer
+
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject IDbContextFactory<PokemonDbContext> DbContextFactory
+
+<PageTitle>Results</PageTitle>
+
+<h1>Results</h1>
+
+<div>
+    <p>Find pokemon:</p>
+    <input type="text" @bind-value="SearchTerm" @bind-value:event="oninput"/>
+</div>
+
+<QuickGrid id="grid" Items="DataSource" Virtualize="true" OverflowItemsCount="100">
+    <PropertyColumn Property="x => x.Name"/>
+    <PropertyColumn Property="x => x.Winrate" IsDefaultSortColumn="true" InitialSortDirection="SortDirection.Descending" Sortable="true"/>
+</QuickGrid>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        DbContext = await DbContextFactory.CreateDbContextAsync();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await DbContext.DisposeAsync();
+    }
+
+    PokemonDbContext DbContext { get; set; } = null!;
+
+    IQueryable<PokemonSlim> DataSource => DbContext.Pokemons
+                                              .AsNoTracking()
+                                              .Where(x => string.IsNullOrWhiteSpace(SearchTerm) || x!.Name.ToLower().Contains(SearchTerm.ToLower()))
+                                              .Select(x => new PokemonSlim { Name = x!.Name, Winrate = (x.Upvotes + x.Downvotes > 0) ? (double)x.Upvotes / (x.Upvotes + x.Downvotes) : 0 });
+
+    /*
+      This produces the following SQL:
+      SELECT "p"."Name", CASE
+          WHEN "p"."Upvotes" + "p"."Downvotes" > 0 THEN CAST("p"."Upvotes" AS REAL) / CAST("p"."Upvotes" + "p"."Downvotes" AS REAL)
+          ELSE 0.0
+      END AS "Winrate"
+      FROM "Pokemons" AS "p"
+      ORDER BY CASE
+          WHEN "p"."Upvotes" + "p"."Downvotes" > 0 THEN CAST("p"."Upvotes" AS REAL) / CAST("p"."Upvotes" + "p"."Downvotes" AS REAL)
+          ELSE 0.0
+      END DESC
+      LIMIT @__p_1 OFFSET @__p_0
+
+      which is run with params as you scroll through the virtualized grid
+     */
+
+    string SearchTerm { get; set; } = "";
+
+    class PokemonSlim
+    {
+        public string Name { get; init; } = "";
+        public double Winrate { get; init; }
+    }
+}
