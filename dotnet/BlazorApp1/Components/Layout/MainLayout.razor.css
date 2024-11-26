@@ -1,0 +1,18 @@
+﻿div.main {
+    display: flex;
+    flex-direction: row;
+}
+
+div.nav-menu {
+    padding: 0 5rem;
+    width: 100px;
+    
+    top: 0;
+    position: sticky;
+    height: 100vh;
+    background: lightgray;
+}
+
+main {
+    padding-left: 50px;
+}

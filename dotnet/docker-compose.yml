@@ -1,0 +1,30 @@
+﻿version: '3.8'
+
+services:
+  webapp:
+    build:
+      context: ./BlazorApp1
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080" # Map port 80 in the container to 8080 on the host
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_DbTech=Postgres
+      - ASPNETCORE_DbConnectionString=Host=postgres;Database=pokemon;Username=postgres;Password=postgres
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: pokemon
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

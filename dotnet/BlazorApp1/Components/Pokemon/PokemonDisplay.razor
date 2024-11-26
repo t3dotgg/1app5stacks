@@ -1,0 +1,13 @@
+﻿@using BlazorApp1.Data
+
+<div>
+    <PokemonSprite DexId="@Pokemon.DexId"/>
+    <div>
+        <span>@Pokemon.DexId</span>
+        <h2>@Pokemon.Name</h2>
+    </div>
+</div>
+
+@code {
+    [Parameter] public required Pokemon Pokemon { get; set; }
+}
