@@ -13,9 +13,15 @@ public class PokemonSeeder(HttpClient httpClient, ILogger<PokemonSeeder> logger)
 
         await Task.WhenAll(
             FetchPokemons(dbContext, remotePokemonsChannel.Writer, token),
-            GetPokemonDetails(remotePokemonsChannel.Reader, pokemonDetailsChannel.Writer, token),
-            SaveToDb(pokemonDetailsChannel.Reader, dbContext, token));
-        
+            SaveToDb(pokemonDetailsChannel.Reader, dbContext, token),
+            Task.WhenAll(
+                // let's have 15 threads fetching pokemons details
+                Enumerable.Range(0, 15).Select(_ =>
+                    GetPokemonDetails(remotePokemonsChannel.Reader, pokemonDetailsChannel.Writer, token)
+                )
+            ).ContinueWith(_ => pokemonDetailsChannel.Writer.Complete(), token)
+        );
+
         logger.LogInformation("Seeding finished");
     }
 
@@ -29,9 +35,9 @@ public class PokemonSeeder(HttpClient httpClient, ILogger<PokemonSeeder> logger)
         await foreach (var pokemon in reader.ReadAllAsync(token))
         {
             pokemonsToSave.Add(pokemon);
-            
+
             // maybe too often, but I want user to be able to battle right away
-            if (pokemonsToSave.Count >= 10) 
+            if (pokemonsToSave.Count >= 50)
             {
                 await dbContext.Pokemons.AddRangeAsync(pokemonsToSave, token);
                 await dbContext.SaveChangesAsync(token);
@@ -80,8 +86,6 @@ public class PokemonSeeder(HttpClient httpClient, ILogger<PokemonSeeder> logger)
                 logger.LogError(e, "Error loading pokemon {Name}", pokemon.Name);
             }
         }
-        
-        writer.Complete();
     }
 
     private async Task FetchPokemons(PokemonDbContext dbContext,
