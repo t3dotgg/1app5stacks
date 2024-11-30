@@ -1,0 +1,14 @@
+{
+    "tailwindCSS.includeLanguages": {
+        "fsharp": "html"
+    },
+    "tailwindCSS.experimental.classRegex": [
+        "class'[\\s]*\"([^\n]*)\"[\\s]*\n"
+    ],
+    "tailwindCSS.classAttributes": [
+        "class",
+        "className",
+        "ngClass",
+        "class'"
+    ]
+}

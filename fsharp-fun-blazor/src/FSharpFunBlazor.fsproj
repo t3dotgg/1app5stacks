@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<EmbeddedResource Include="Db/Migrations/*.sql" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="Db/Pokemon.fs" />
+		<Compile Include="Db/PokemonService.fs" />
+		<Compile Include="Db/PokemonFetchingBackgroundService.fs" />
+		<Compile Include="View/Pages/VotePage.fs" />
+		<Compile Include="View/Pages/ResultsPage.fs" />
+		<Compile Include="View/Routes.fs" />
+		<Compile Include="View/Entry.fs" />
+		<Compile Include="Startup.fs" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Fun.Blazor" Version="4.1.*" />
+		<PackageReference Include="Fun.Blazor.Server" Version="4.1.*" />
+		<PackageReference Include="Fun.Blazor.Microsoft.Web" Version="9.0.*" />
+
+		<PackageReference Include="FSharp.Control.TaskSeq" Version="0.4.0" />
+
+		<PackageReference Include="dbup-sqlite" Version="5.0.40" />
+		<PackageReference Include="Dapper" Version="2.1.35" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="3.1.1" />
+		<PackageReference Include="PokeApiNet" Version="4.0.0" />
+	</ItemGroup>
+
+</Project>
