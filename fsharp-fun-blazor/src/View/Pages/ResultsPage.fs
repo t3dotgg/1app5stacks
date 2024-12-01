@@ -3,6 +3,7 @@ module FSharpFunBlazor.View.Pages.ResultsPage
 
 open System
 open Microsoft.AspNetCore.Components.Web
+open Microsoft.AspNetCore.Components.Web.Virtualization
 open Fun.Result
 open Fun.Blazor
 open FSharpFunBlazor.Db
@@ -84,9 +85,12 @@ let private pokemonsRows =
                 )
                 |> Seq.sortByDescending snd
                 |> Seq.indexed
+                |> Collections.Generic.List
 
-            for index, (pokemon, winPercentage) in calculatedItems do
-                pokemonRow pokemon index winPercentage
+            Virtualize'' {
+                Items calculatedItems
+                ChildContent(fun (index, (pokemon, winPercentage)) -> pokemonRow pokemon index winPercentage)
+            }
 
         | LoadingState.NotStartYet -> p {
             class' "text-yellow-600 text-center"
