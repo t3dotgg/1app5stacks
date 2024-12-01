@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  fsharp-fun-blazor:
+    build:
+      context: ./src
+      dockerfile: dockerfile
+    ports:
+      - "5032:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
