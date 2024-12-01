@@ -44,6 +44,29 @@ let private pokemonRow (pokemon: Pokemon) index (winPercentage: float) = div {
     }
 }
 
+
+let private pokemonsLoader = div {
+    class' "grid gap-4"
+    for i in 1..10 do
+        div {
+            key i
+            class' "flex items-center gap-6 p-6 bg-gray-800/40 rounded-lg shadow animate-pulse"
+            div { class' "w-8 h-8 bg-gray-700/40 rounded" }
+            div { class' "w-20 h-20 bg-gray-700/40 rounded" }
+            div {
+                class' "flex-grow"
+                div { class' "w-16 h-4 bg-gray-700/40 rounded mb-2" }
+                div { class' "w-32 h-6 bg-gray-700/40 rounded" }
+            }
+            div {
+                class' "text-right"
+                div { class' "w-16 h-8 bg-gray-700/40 rounded mb-2" }
+                div { class' "w-24 h-4 bg-gray-700/40 rounded" }
+            }
+        }
+}
+
+
 let private pokemonsRows =
     html.inject (fun (pokemonService: PokemonService) -> adapt {
         match! pokemonService.GetAll() |> Task.map LoadingState.Loaded |> AVal.ofTask LoadingState.Loading with
@@ -70,7 +93,7 @@ let private pokemonsRows =
             "No pokmons found, please refresh later"
           }
 
-        | _ -> p { "Loading ..." }
+        | _ -> pokemonsLoader
     })
 
 

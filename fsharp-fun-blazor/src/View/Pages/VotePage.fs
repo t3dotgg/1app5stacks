@@ -35,6 +35,23 @@ let private pokemonCard (pokemon: Pokemon) (onVote: unit -> Task<unit>) = div {
 }
 
 
+let private voteLoader = div {
+    class' "flex justify-center gap-16 items-center min-h-[80vh]"
+    for i in 1..2 do
+        div {
+            key i
+            class' "flex flex-col items-center gap-4"
+            div { class' "w-64 h-64 bg-gray-800/10 rounded-lg animate-pulse" }
+            div {
+                class' "text-center space-y-2 flex flex-col items-center justify-center"
+                div { class' "h-6 w-16 bg-gray-800/10 rounded animate-pulse" }
+                div { class' "h-8 w-32 bg-gray-800/10 rounded animate-pulse" }
+                div { class' "h-12 w-24 bg-gray-800/10 rounded animate-pulse" }
+            }
+        }
+}
+
+
 let private pokemonVoter =
     html.inject (fun (hook: IComponentHook, store: IShareStore, pokemonService: PokemonService) ->
         let pokemons = store.CreateCVal("pokemons", LoadingState<Pokemon * Pokemon>.Loading)
@@ -58,7 +75,7 @@ let private pokemonVoter =
         }
 
 
-        hook.AddInitializedTask(fun _ -> task { if pokemons.Value.Value.IsNone then do! loadPokemons () })
+        hook.AddFirstAfterRenderTask(fun _ -> task { if pokemons.Value.Value.IsNone then do! loadPokemons () })
 
         div {
             class' "flex justify-center gap-16 items-center min-h-[80vh]"
@@ -73,7 +90,7 @@ let private pokemonVoter =
                     "No pokmons found, please refresh later"
                   }
 
-                | _ -> p { "Loading ..." }
+                | _ -> voteLoader
             }
         }
     )
